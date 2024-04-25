@@ -2,7 +2,7 @@ version: "3.8"
 
 services:  
   postgres:    
-    container_name: crud_pessoa    
+    container_name: teste    
     image: postgres    
     ports:      
       - 5432:5432    
