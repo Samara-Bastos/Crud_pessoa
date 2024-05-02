@@ -1,5 +1,6 @@
 package crud.pessoa.demo.models;
 
+import crud.pessoa.demo.DTO.EnderecoDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Endereco")
@@ -35,22 +37,11 @@ public class Endereco {
 	private String cep;
 
 	@JoinColumn
-    @Column(nullable = false, length = 5)
+    @Column(nullable = true, length = 5)
 	private Long id_pessoa;
 
 	
 	public Endereco(){}
-
-	public Endereco(Long id, String rua, int numero, String bairro, String cidade, String estado, String cep, Long id_pessoa){
-		this.id = id;
-		this.rua = rua;
-		this.numero = numero;
-		this.bairro = bairro;
-		this.cidade = cidade;
-		this.estado = estado;
-		this.cep = cep;
-		this.id_pessoa = id_pessoa;
-	}
 
 	public Long getId(){
 		return this.id;
@@ -104,9 +95,9 @@ public class Endereco {
 		this.cep = cep;
 	}
 
-	public Long getIdPessoa(){
-		return id_pessoa;
-	}
+	// public Long getIdPessoa(){
+	// 	return id_pessoa;
+	// }
 
 	
 	@Override
@@ -119,7 +110,7 @@ public class Endereco {
 				" Cidade= " + this.getCidade() +
 				" Estado= " + this.getEstado() +
 				" CEP= " + this.getCep() +
-				" Residente= " + this.getIdPessoa() +
+				//" Residente= " + this.getIdPessoa() +
                 '}';
     }
 

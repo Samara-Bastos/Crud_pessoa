@@ -11,54 +11,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import crud.pessoa.demo.DTO.EnderecoDTO;
 import crud.pessoa.demo.DTO.PessoaDTO;
-import crud.pessoa.demo.mapper.PessoaMapper;
+import crud.pessoa.demo.mapper.EnderecoMapper;
+import crud.pessoa.demo.models.Endereco;
 import crud.pessoa.demo.models.Pessoa;
-import crud.pessoa.demo.services.PessoaService;
+import crud.pessoa.demo.services.EnderecoService;
 import jakarta.validation.Valid;
 
 //Anotação rest para indicar que essa classe é um controller
 @RestController 
 //Anotação para fazer o mapeamento da rota(dizer qual será a URL de acesso)
-@RequestMapping("/pessoa") 
-public class PessoaController {
-
+@RequestMapping("/endereco") 
+public class EnderecoController {
+    
     //Anotação para fazer com que o Spring forneça automaticamente uma instância para essa classe (também conhecido como injeção de dependência)
     @Autowired
-    private PessoaService pessoaService;
-    @Autowired
-    private PessoaMapper pessoaMapper;
+    private EnderecoService enderecoService;
 
+    @Autowired
+    private EnderecoMapper enderecoMapper;
 
     //Anotação para indicar que a requisição será do tipo POST
     @PostMapping 
     //Anotação para indicar para o spring que esse json está vindo do corpo da requisição
-    public ResponseEntity<Pessoa> cadatrar(@RequestBody @Valid PessoaDTO pessoaDTO){ 
+    public ResponseEntity<Endereco> cadatrar(@RequestBody EnderecoDTO enderecoDTO){ 
 
-        // Converte PessoaDTO para Pessoa usando o mapper
-        Pessoa pessoa = pessoaMapper.dtoToPessoa(pessoaDTO);
+        // Converte EnderecoDTO para Endereco usando o mapper
+        Endereco endereco = enderecoMapper.dtoToEndereco(enderecoDTO);
 
         //Chama a função para salvar no banco
-        var result = pessoaService.create(pessoa); 
+        var result = enderecoService.create(endereco); 
 
         //Retorna um status de criação, a partir de uma requisição no corpo da página
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
         
     }
-
-
-
-
-
-
-
-
-    
-
-    // @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
-	// 		produces = MediaType.APPLICATION_JSON_VALUE)
-	// public Person create(@RequestBody Person person) {
-	// 	return service.create(person);
-	// }
-    
 }

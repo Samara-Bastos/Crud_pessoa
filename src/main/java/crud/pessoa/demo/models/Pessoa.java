@@ -1,7 +1,11 @@
 package crud.pessoa.demo.models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+
+import crud.pessoa.demo.DTO.EnderecoDTO;
+import crud.pessoa.demo.DTO.PessoaDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import lombok.Getter;
 
 @Entity
 @Table(name = "Pessoa")
@@ -23,14 +28,15 @@ public class Pessoa {
 	@Column(nullable = false, length = 80)
 	private String nome;
 
-	@Column(nullable = true, length = 11)
+	@Column(nullable = true, length = 8)
 	private String nascimento;
 	
-	@Column(nullable = false, length = 15, unique = true)
+	@Column(nullable = false, length = 11, unique = true)
 	private String cpf;
 
-	@OneToMany(cascade = CascadeType.REMOVE)
-	private List<Endereco> enderecos;
+	@Getter 
+	@OneToMany(cascade = CascadeType.PERSIST)
+	private List<Endereco> enderecos = new ArrayList<>();
 
 	@Transient //Anotação usada para garantir que esse atributo não seja salvo no banco
 	private LocalDate anoAtual = LocalDate.now();
@@ -38,14 +44,8 @@ public class Pessoa {
 	@Transient
 	private int idade;
 
-	public Pessoa(){};
-
-	public Pessoa(Long id,String nome, String nascimento, String cpf, List<Endereco> enderecos){
-		this.id = id;
-		this.nome = nome;
-		this.nascimento = nascimento;
-		this.cpf = cpf;
-	}
+	//Construtor vazio
+	public Pessoa(){}; 
 
 	public long getId(){
 		return this.id;
@@ -87,6 +87,12 @@ public class Pessoa {
 		this.idade = idade;
 	}
 
+	// public void getEnderecos(){
+	// 	for (Endereco item : enderecos) {
+    //         System.out.println(item);
+    //     }
+	// }
+
 	public void calculaIdade(){
 
 	}
@@ -98,6 +104,7 @@ public class Pessoa {
 				" Nome= " + this.getNome() +
 				" Nascimento= " + this.getNascimento() +
 				" CPF= " + this.getCpf() +
+				" Endereços = " + this.getEnderecos() +
 				" Idade= " + this.getIdade() +
                 '}';
     }
