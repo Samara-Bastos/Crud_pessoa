@@ -12,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -35,7 +36,7 @@ public class Pessoa {
 	private String cpf;
 
 	@Getter 
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@OneToMany(targetEntity = Endereco.class, cascade = CascadeType.ALL)
 	private List<Endereco> enderecos = new ArrayList<>();
 
 	@Transient //Anotação usada para garantir que esse atributo não seja salvo no banco

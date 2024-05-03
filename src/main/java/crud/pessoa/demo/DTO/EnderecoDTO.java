@@ -7,5 +7,5 @@ public record EnderecoDTO(
     String cidade, 
     String estado, 
     String cep,
-    Long id_pessoa
+    Long fk_pessoa
 ) {}

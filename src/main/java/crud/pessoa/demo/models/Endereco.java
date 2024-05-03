@@ -36,10 +36,8 @@ public class Endereco {
     @Column(nullable = false, length = 10) 
 	private String cep;
 
-	@JoinColumn
-    @Column(nullable = true, length = 5)
-	private Long id_pessoa;
-
+	@JoinColumn(name = "fk_pessoa", referencedColumnName = "id")
+	private Long fk_pessoa;
 	
 	public Endereco(){}
 
