@@ -4,15 +4,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import crud.pessoa.demo.DTO.EnderecoDTO;
-import crud.pessoa.demo.DTO.PessoaDTO;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -36,7 +34,8 @@ public class Pessoa {
 	private String cpf;
 
 	@Getter 
-	@OneToMany(targetEntity = Endereco.class, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "cpf_pessoa", cascade = CascadeType.ALL)
+    @JsonManagedReference
 	private List<Endereco> enderecos = new ArrayList<>();
 
 	@Transient //Anotação usada para garantir que esse atributo não seja salvo no banco
@@ -87,12 +86,6 @@ public class Pessoa {
 	public void setIdade(int idade){
 		this.idade = idade;
 	}
-
-	// public void getEnderecos(){
-	// 	for (Endereco item : enderecos) {
-    //         System.out.println(item);
-    //     }
-	// }
 
 	public void calculaIdade(){
 

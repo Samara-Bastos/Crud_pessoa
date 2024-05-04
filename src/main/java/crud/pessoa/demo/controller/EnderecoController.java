@@ -12,10 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import crud.pessoa.demo.DTO.EnderecoDTO;
-import crud.pessoa.demo.DTO.PessoaDTO;
 import crud.pessoa.demo.mapper.EnderecoMapper;
 import crud.pessoa.demo.models.Endereco;
-import crud.pessoa.demo.models.Pessoa;
 import crud.pessoa.demo.services.EnderecoService;
 import jakarta.validation.Valid;
 
@@ -35,13 +33,13 @@ public class EnderecoController {
     //Anotação para indicar que a requisição será do tipo POST
     @PostMapping 
     //Anotação para indicar para o spring que esse json está vindo do corpo da requisição
-    public ResponseEntity<Endereco> cadatrar(@RequestBody EnderecoDTO enderecoDTO){ 
+    public ResponseEntity<Endereco> cadatrar(@RequestBody @Valid EnderecoDTO enderecoDTO){ 
 
         // Converte EnderecoDTO para Endereco usando o mapper
         Endereco endereco = enderecoMapper.dtoToEndereco(enderecoDTO);
 
         //Chama a função para salvar no banco
-        var result = enderecoService.create(endereco); 
+        var result = enderecoService.create(endereco, enderecoDTO.cpf_pessoa()); 
 
         //Retorna um status de criação, a partir de uma requisição no corpo da página
         return ResponseEntity.status(HttpStatus.CREATED).body(result);

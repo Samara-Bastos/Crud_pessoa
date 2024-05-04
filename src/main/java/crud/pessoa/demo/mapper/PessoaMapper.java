@@ -16,6 +16,6 @@ public interface PessoaMapper {
 
     PessoaDTO pessoaToDTO(Pessoa pessoa);
 
-    @Mapping(target = "enderecos", ignore = true) // Ignora o mapeamento do atributo enderecos
+    // @Mapping(target = "enderecos", ignore = true) // Ignora o mapeamento do atributo enderecos
     Pessoa dtoToPessoa(PessoaDTO dto); // Mapeia um DTO PessoaDTO para uma entidade Pessoa
 }

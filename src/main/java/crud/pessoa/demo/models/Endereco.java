@@ -1,14 +1,14 @@
 package crud.pessoa.demo.models;
 
-import crud.pessoa.demo.DTO.EnderecoDTO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Endereco")
@@ -36,8 +36,14 @@ public class Endereco {
     @Column(nullable = false, length = 10) 
 	private String cep;
 
-	@JoinColumn(name = "fk_pessoa", referencedColumnName = "id")
-	private Long fk_pessoa;
+	@ManyToOne
+	@JsonBackReference
+	@JoinColumn(name = "cpf_pessoa", referencedColumnName = "cpf")
+	private Pessoa cpf_pessoa;
+
+	@Column(nullable = true)
+	private boolean principal;
+	
 	
 	public Endereco(){}
 
@@ -93,11 +99,19 @@ public class Endereco {
 		this.cep = cep;
 	}
 
-	// public Long getIdPessoa(){
-	// 	return id_pessoa;
-	// }
-
 	
+	public void setCpfPessoa(Pessoa cpf_pessoa) {
+		this.cpf_pessoa = cpf_pessoa;
+	}
+
+	public boolean isPrincipal() {
+		return principal;
+	}
+
+	public void setPrincipal(boolean principal) {
+		this.principal = principal;
+	}
+
 	@Override
     public String toString() {
         return "Endereço { " +
@@ -108,7 +122,6 @@ public class Endereco {
 				" Cidade= " + this.getCidade() +
 				" Estado= " + this.getEstado() +
 				" CEP= " + this.getCep() +
-				//" Residente= " + this.getIdPessoa() +
                 '}';
     }
 
