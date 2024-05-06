@@ -4,7 +4,6 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 
 public record EnderecoDTO(
 
@@ -24,9 +23,10 @@ public record EnderecoDTO(
     String estado, 
 
     @NotBlank(message = "O cep não pode estar vazio")
-    @Pattern(regexp = "\\d {8}") // Anotação para exigir que meu campo "cep" tenha 8 digitos
     String cep,
 
     @CPF
-    String cpf_pessoa
+    String cpf_pessoa,
+
+    boolean principal
 ) {}

@@ -12,10 +12,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import crud.pessoa.demo.DTO.PessoaDTO;
+import crud.pessoa.demo.DTO.PessoaListDTO;
 import crud.pessoa.demo.mapper.PessoaMapper;
 import crud.pessoa.demo.models.Pessoa;
 import crud.pessoa.demo.services.PessoaService;
 import jakarta.validation.Valid;
+import java.util.List;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 //Anotação rest para indicar que essa classe é um controller
 @RestController 
@@ -45,6 +49,12 @@ public class PessoaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
         
     }
+
+    
+    @GetMapping("path")
+    public List<PessoaListDTO> exibirTodos() {
+		return pessoaService.findAll();
+	}
 
 
 

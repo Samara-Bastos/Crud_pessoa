@@ -33,7 +33,7 @@ public class Endereco {
     @Column(nullable = false, length = 30)
 	private String estado;
 
-    @Column(nullable = false, length = 10) 
+    @Column(nullable = false, length = 8) 
 	private String cep;
 
 	@ManyToOne
