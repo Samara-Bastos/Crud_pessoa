@@ -1,7 +1,9 @@
 package crud.pessoa.demo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -48,4 +50,17 @@ public class PessoaCreateTest {
         assertEquals(pessoaCriada.getNascimento(), "20040514");
         assertEquals(pessoaCriada.getCpf(), "37491502814");
     }
+
+    @Test
+    @DisplayName("Encontra uma pessoa no banco através do CPF")
+    void findById() {
+
+        when(pessoaRepository.findById(anyLong())).thenReturn(Optional.of(pessoa)); 
+
+        Pessoa pessoaEncontrada = pessoaService.findById(1L);
+
+        assertNotNull(pessoaEncontrada);
+    }
+
+    
 }

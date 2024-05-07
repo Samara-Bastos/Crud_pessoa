@@ -74,4 +74,18 @@ public class PessoaService {
         return repository.save(pessoaNova);
     }
 
+
+    @Transactional
+    public void delete(String cpf) {
+        logger.info("Exclusão de uma pessoa");
+
+        Optional<Pessoa> pessoaReturn = findByPessoaCpf(cpf);
+
+        if (pessoaReturn.isEmpty()) {
+            throw new CreatePessoaException("Pessoa não encontrada");
+        }
+
+        Pessoa pessoaParaExcluir = pessoaReturn.get();
+        repository.delete(pessoaParaExcluir);
+    }
 }

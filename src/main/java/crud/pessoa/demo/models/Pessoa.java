@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -30,11 +31,12 @@ public class Pessoa {
 	@Column(nullable = true, length = 8)
 	private String nascimento;
 	
-	@Column(nullable = false, length = 11)
+	@Column(nullable = false, length = 11, unique = true)
 	private String cpf;
 
 	@Getter 
 	@OneToMany(mappedBy = "cpf_pessoa", cascade = CascadeType.ALL)
+	@JsonIgnore
     @JsonManagedReference
 	private List<Endereco> enderecos = new ArrayList<>();
 
@@ -97,16 +99,16 @@ public class Pessoa {
 
 	}
 
-	@Override
-    public String toString() {
-        return "Pessoa { " +
-                " ID= " + this.getId() +
-				" Nome= " + this.getNome() +
-				" Nascimento= " + this.getNascimento() +
-				" CPF= " + this.getCpf() +
-				" Endereços = " + this.getEnderecos() +
-				" Idade= " + this.getIdade() +
-                '}';
-    }
+	// @Override
+    // public String toString() {
+    //     return "Pessoa { " +
+    //             " ID= " + this.getId() +
+	// 			" Nome= " + this.getNome() +
+	// 			" Nascimento= " + this.getNascimento() +
+	// 			" CPF= " + this.getCpf() +
+	// 			" Endereços = " + this.getEnderecos() +
+	// 			" Idade= " + this.getIdade() +
+    //             '}';
+    // }
 
 }

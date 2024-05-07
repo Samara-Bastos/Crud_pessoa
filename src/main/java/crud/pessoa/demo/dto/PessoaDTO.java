@@ -1,4 +1,4 @@
-package crud.pessoa.demo.DTO;
+package crud.pessoa.demo.dto;
 
 import org.hibernate.validator.constraints.br.CPF;
 import jakarta.validation.constraints.NotBlank;

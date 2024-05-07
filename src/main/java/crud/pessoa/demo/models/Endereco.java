@@ -1,6 +1,8 @@
 package crud.pessoa.demo.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "Endereco")
@@ -36,8 +40,11 @@ public class Endereco {
     @Column(nullable = false, length = 8) 
 	private String cep;
 
+	@Getter 
+	@Setter
 	@ManyToOne
 	@JsonBackReference
+	@JsonIgnore
 	@JoinColumn(name = "cpf_pessoa", referencedColumnName = "cpf")
 	private Pessoa cpf_pessoa;
 
@@ -99,10 +106,13 @@ public class Endereco {
 		this.cep = cep;
 	}
 
+	// public Pessoa getCpfPessoa(){
+	// 	return this.cpf_pessoa;
+	// }
 	
-	public void setCpfPessoa(Pessoa cpf_pessoa) {
-		this.cpf_pessoa = cpf_pessoa;
-	}
+	// public void setCpfPessoa(Pessoa cpf_pessoa) {
+	// 	this.cpf_pessoa = cpf_pessoa;
+	// }
 
 	public boolean isPrincipal() {
 		return principal;
@@ -122,6 +132,7 @@ public class Endereco {
 				" Cidade= " + this.getCidade() +
 				" Estado= " + this.getEstado() +
 				" CEP= " + this.getCep() +
+				"CPF Pessoa" + this.getCpf_pessoa()+
                 '}';
     }
 
