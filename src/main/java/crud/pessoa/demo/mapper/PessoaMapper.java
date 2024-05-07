@@ -5,7 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;
 
-import crud.pessoa.demo.DTO.PessoaDTO;
+import crud.pessoa.demo.dto.PessoaDTO;
 import crud.pessoa.demo.models.Pessoa;
 
 @Mapper(componentModel = "spring")

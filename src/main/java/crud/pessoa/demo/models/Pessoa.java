@@ -30,7 +30,7 @@ public class Pessoa {
 	@Column(nullable = true, length = 8)
 	private String nascimento;
 	
-	@Column(nullable = false, length = 11, unique = true)
+	@Column(nullable = false, length = 11)
 	private String cpf;
 
 	@Getter 
@@ -46,6 +46,12 @@ public class Pessoa {
 
 	//Construtor vazio
 	public Pessoa(){}; 
+
+	public Pessoa(String nome, String nascimento, String cpf) {
+		this.nome = nome;
+		this.nascimento = nascimento;
+		this.cpf = cpf;
+	}
 
 	public long getId(){
 		return this.id;
