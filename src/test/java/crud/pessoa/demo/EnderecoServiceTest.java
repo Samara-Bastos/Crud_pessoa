@@ -1,0 +1,99 @@
+package crud.pessoa.demo;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+
+import java.util.Optional;
+import crud.pessoa.demo.dto.PessoaDTO;
+import crud.pessoa.demo.dto.PessoaListDTO;
+import crud.pessoa.demo.exceptions.FindPessoaException;
+import crud.pessoa.demo.models.Endereco;
+import crud.pessoa.demo.models.Pessoa;
+import crud.pessoa.demo.repository.EnderecoRepository;
+import crud.pessoa.demo.repository.PessoaRepository;
+import crud.pessoa.demo.services.EnderecoService;
+import crud.pessoa.demo.services.PessoaService;
+import java.util.List;
+import java.util.ArrayList;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+@ExtendWith(MockitoExtension.class)
+public class EnderecoServiceTest {
+    
+    @Mock
+    private EnderecoRepository enderecoRepository;
+
+    @Mock
+    private EnderecoService enderecoService;
+
+    @Mock
+    private PessoaRepository pessoaRepository;
+
+    @InjectMocks
+    private PessoaService pessoaService;
+
+    protected Pessoa pessoa;
+
+    protected Endereco endereco;
+
+    @BeforeEach
+    void setup(){
+
+        pessoa = new Pessoa("Aurora", "20040514", "37491502814");
+
+        endereco = new Endereco("Rua das dores", 10, "Bairro Jardins", "Cidade São Paulo", "Estado São Paulo", "36011233",pessoa, false);
+    }
+
+    // @Test
+    // @DisplayName("Tenta inserir um endereço, mas vai cair na exceção")
+    // void createEnderecoException() {
+
+    //     when(pessoaRepository.findByCpf(anyString())).thenReturn(Optional.empty());
+
+    //     assertThrows(FindPessoaException.class, () -> enderecoService.create(endereco, pessoa.getCpf()));
+    // }
+
+    @Test
+    @DisplayName("Deve inserir um endereço no banco")
+    void createEndereco() {
+
+        when(pessoaRepository.findByCpf(anyString())).thenReturn(Optional.of(pessoa));
+
+        when(enderecoRepository.save(endereco)).thenReturn(endereco);
+
+        Endereco enderecoCriado = enderecoService.create(endereco, pessoa.getCpf());
+
+        System.out.println("esse é o objeto pessoa"+pessoa.getCpf());
+        System.out.println("esse é o retorno do teste create "+endereco);
+        System.out.println("esse é o retorno do teste create "+enderecoCriado);
+
+        //assertNotNull(enderecoCriado.getCpf_pessoa());
+        // assertEquals("Rua das dores", enderecoCriado.getRua());
+        // assertEquals("36011233", enderecoCriado.getCep());
+    }
+
+    
+    // @Test
+    // @DisplayName("Tenta atualizar um endereço, mas vai cair na exceção")
+    // void test() {
+    //     when(enderecoRepository.findByEnderecoCpfPessoa((anyString())).thenReturn(Lis));
+    // }
+}
