@@ -26,6 +26,7 @@ import crud.pessoa.demo.models.Pessoa;
 import crud.pessoa.demo.repository.PessoaRepository;
 import crud.pessoa.demo.services.PessoaService;
 import java.util.List;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,7 +45,7 @@ public class PessoaServiceTest {
 
     @BeforeEach
     public void personSetup() {
-        pessoa = new Pessoa("Aurora", "20040514", "37491502814");
+        pessoa = new Pessoa("Aurora", LocalDate.of(2004,05,01), "37491502814");
     }
 
     @Test
@@ -56,7 +57,7 @@ public class PessoaServiceTest {
         Pessoa pessoaCriada = pessoaService.create(pessoa);
 
         assertEquals(pessoaCriada.getNome(), "Aurora");
-        assertEquals(pessoaCriada.getNascimento(), "20040514");
+        assertEquals(pessoaCriada.getNascimento(), LocalDate.of(2004,05,01));
         assertEquals(pessoaCriada.getCpf(), "37491502814");
     }
 
@@ -89,7 +90,7 @@ public class PessoaServiceTest {
         when(pessoaRepository.findByCpf(pessoa.getCpf())).thenReturn(Optional.of(pessoa)); 
         when(pessoaRepository.save(pessoa)).thenReturn(pessoa);
 
-        Pessoa pessoaNova = new Pessoa("Laura","10102000","89503058015");
+        Pessoa pessoaNova = new Pessoa("Laura",LocalDate.of(2000,10,10),"89503058015");
 
         Pessoa pessoaAtualizada = pessoaService.update(pessoa.getCpf(), pessoaNova);
 
@@ -120,6 +121,13 @@ public class PessoaServiceTest {
         Page<Object> pessoasEncontradas = pessoaService.findAll(Pageable.unpaged());
 
         assertTrue(pessoasEncontradas.isEmpty());
+    }
+
+    @Test
+    @DisplayName("Deve retornar a idade corretamente")
+    void calculaIdadeTest() {
+        pessoaService.calculaIdade(pessoa);
+        assertEquals(20, pessoa.getIdade()); 
     }
 
 }

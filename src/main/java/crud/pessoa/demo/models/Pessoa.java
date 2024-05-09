@@ -1,6 +1,7 @@
 package crud.pessoa.demo.models;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,8 +29,8 @@ public class Pessoa {
 	@Column(nullable = false, length = 80)
 	private String nome;
 
-	@Column(nullable = true, length = 8)
-	private String nascimento;
+	@Column(nullable = true, length = 11)
+	private LocalDate nascimento;
 	
 	@Column(nullable = false, length = 11, unique = true)
 	private String cpf;
@@ -49,7 +50,7 @@ public class Pessoa {
 	//Construtor vazio
 	public Pessoa(){}; 
 
-	public Pessoa(String nome, String nascimento, String cpf) {
+	public Pessoa(String nome, LocalDate nascimento, String cpf) {
 		this.nome = nome;
 		this.nascimento = nascimento;
 		this.cpf = cpf;
@@ -67,11 +68,11 @@ public class Pessoa {
 		this.nome = nome;
 	}
 
-	public String getNascimento(){
+	public LocalDate getNascimento(){
 		return this.nascimento;
 	}
 
-	public void setNascimento(String nascimento){
+	public void setNascimento(LocalDate nascimento){
 		this.nascimento = nascimento;
 	}
 
@@ -94,21 +95,5 @@ public class Pessoa {
 	public void setIdade(int idade){
 		this.idade = idade;
 	}
-
-	public void calculaIdade(){
-
-	}
-
-	// @Override
-    // public String toString() {
-    //     return "Pessoa { " +
-    //             " ID= " + this.getId() +
-	// 			" Nome= " + this.getNome() +
-	// 			" Nascimento= " + this.getNascimento() +
-	// 			" CPF= " + this.getCpf() +
-	// 			" Endereços = " + this.getEnderecos() +
-	// 			" Idade= " + this.getIdade() +
-    //             '}';
-    // }
 
 }

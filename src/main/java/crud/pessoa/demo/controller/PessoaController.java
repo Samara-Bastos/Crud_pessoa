@@ -59,7 +59,7 @@ public class PessoaController {
 
     
     @GetMapping()
-    public Page<Object> exibirTodos(@PageableDefault(size = 2, sort = {"nome"}) Pageable paginacao) {
+    public Page<Object> exibirTodos(Pageable paginacao) {
 		return pessoaService.findAll(paginacao);
 	}
 

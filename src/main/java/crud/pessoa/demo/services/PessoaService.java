@@ -1,6 +1,7 @@
 package crud.pessoa.demo.services;
 
 import java.util.Optional;
+import java.time.Period;
 import java.util.List;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,13 @@ public class PessoaService {
             throw new FindPessoaException("Já existe uma pessoa cadastrada com esse CPF");
             
         }
-    
+
         return repository.save(pessoa);
+    }
+
+    public void calculaIdade(Pessoa pessoa){     
+        Period periodo = Period.between(pessoa.getNascimento(), pessoa.getAnoAtual());
+        pessoa.setIdade(periodo.getYears());
     }
 
   
@@ -45,7 +51,12 @@ public class PessoaService {
 
     public Page<Object> findAll(Pageable paginacao) {
         logger.info("Pessoas cadastradas");
-		return repository.findAll(paginacao).map(PessoaListDTO::new);
+		return repository.findAll(paginacao).map(pessoa -> {
+            if (pessoa.getNascimento() != null) {
+                calculaIdade(pessoa); // Calcular idade para cada pessoa
+            }
+            return new PessoaListDTO(pessoa);
+        });
 	}
 
     public Pessoa findById(Long id) {
@@ -70,7 +81,8 @@ public class PessoaService {
         pessoaNova.setNome(pessoa.getNome());
         pessoaNova.setNascimento(pessoa.getNascimento());
         pessoaNova.setCpf(pessoa.getCpf());
-    
+        
+        calculaIdade(pessoaNova);
         return repository.save(pessoaNova);
     }
 
