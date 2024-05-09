@@ -1,40 +1,57 @@
-Desafio
+~~ CRUD de Pessoa e Endereço
 
-Crie um projeto Java usando Spring Boot que implemente um CRUD para as 
-entidades Pessoa e Endereço, que têm um relacionamento de um-para-muitos.
+    Este projeto foi desenvolvido em Java utilizando o framework Spring Boot para criar um CRUD (Create, Read, Update, Delete) para as entidades Pessoa e Endereço. A relação entre essas entidades é de um-para-muitos, ou seja, uma pessoa pode ter vários endereços.
 
-A entidade Pessoa deve ter os seguintes campos:
 
-    • ID
-    • Nome - Obrigatório
-    • Data Nascimento
-    • CPF - Obrigatório, não pode haver dois iguais na base de dados
-    A entidade Endereço deve ter os seguintes campos:
-    ID Rua Número Bairro Cidade Estado CEP
+~~ Funcionalidades
 
-Requisitos:
+    O sistema oferece as seguintes funcionalidades:
 
-    • Listar todas as pessoas e seus respectivos endereços
-    • Criar uma nova pessoa com um ou mais endereços
-    • Atualizar os dados de uma pessoa e/ou seu(s) endereço(s)
-    • Excluir uma pessoa e todos os seus endereços
-    • Mostrar a Idade da Pessoa
+    Listagem de Pessoas e Endereços
+    Permite visualizar todas as pessoas cadastradas juntamente com seus respectivos endereços.
 
-Obs: * Lembre-se de implementar validações básicas para os campos obrigatórios e 
-tratamento de exceções. * Banco de dados H2 * * Todas as respostas da API devem 
-ser em JSON
+    Cadastro de uma Nova Pessoa
+    Permite criar uma nova pessoa no sistema, fornecendo informações como nome, data de nascimento e CPF.
 
-Pontos aserem avaliados:
+    Cadastro de um Novo Endereço
+    Permite criar um novo endereço no sistema, fornecendo o CPF da pessoa que você deseja vincular o endereço, a rua, número, bairro , cidade,  estado, CEP e se ele é o endereço principal.
 
-    • Qualidade de código, estrutura, arquitetura e organização do projeto
-    • Boas práticas de programação
-    • Alcance dos objetivos propostos.
-    • REST
-    • Testes
+    Atualização de Dados
+    Permite atualizar os dados de uma pessoa, incluindo informações pessoais e endereços associados.
 
-Será um diferencial se:
+    Exclusão de Pessoa
+    Permite excluir uma pessoa do sistema, juntamente com todos os seus endereços associados.
 
-    • Testes de integração
-    • Swagger
-    • Poder informar qual endereço é o principal da pessoa
-    • Fizer Paginação ao listar todas as Pessoas
+    Cálculo da Idade
+    Calcula e exibe a idade da pessoa com base na sua data de nascimento.
+
+
+~~Tecnologias Utilizadas
+
+    Java
+    Spring Boot
+    Spring Boot JPA
+    Postgres SQL
+    Docker 
+    API Rest
+    Requisições HTTP
+    Json
+    DTO
+    Bean Validation
+    Paginação e Ordenação 
+    Testes Unitarios - Junit e Mockito
+
+
+~~Executando o Projeto
+
+    Clone este repositório para sua máquina local.
+    Abra o projeto em sua IDE Java preferida.
+    Execute o seguinte comando no terminal : "docker compose up -d" para que o banco de dados seja criado remotamente no docker
+    Execute a aplicação Spring Boot.
+    Acesse a documentação da API Swagger em http://localhost:8080/swagger-ui.html.
+
+
+~~Desenvolvedora Responsável 
+
+    Samara Bastos
+    linkedin : https://www.linkedin.com/in/samara-bastos-397375241/
