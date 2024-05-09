@@ -3,7 +3,8 @@ package crud.pessoa.demo.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import crud.pessoa.demo.exceptions.CreatePessoaException;
+import crud.pessoa.demo.exceptions.FindEnderecoException;
+import crud.pessoa.demo.exceptions.FindPessoaException;
 import crud.pessoa.demo.models.Endereco;
 import crud.pessoa.demo.models.Pessoa;
 import crud.pessoa.demo.repository.EnderecoRepository;
@@ -15,7 +16,6 @@ import java.util.logging.Logger;
 
 @Service
 public class EnderecoService {
-
 
     private Logger logger = Logger.getLogger(EnderecoService.class.getName());
 
@@ -33,7 +33,7 @@ public class EnderecoService {
         Optional<Pessoa> pessoa = pessoaService.findByPessoaCpf(cpf);
         
         if(pessoa.isEmpty()){
-            throw new CreatePessoaException("Pessoa não encontrada");
+            throw new FindPessoaException("Pessoa não encontrada");
             
         }
         
@@ -48,7 +48,7 @@ public class EnderecoService {
         List<Endereco> enderecos = repository.findByEnderecoCpfPessoa(cpf);
         
         if(enderecos.size() == 0){
-            throw new CreatePessoaException("Endereço não encontrado");      
+            throw new FindEnderecoException("Endereço não encontrado");      
         }
         
         Endereco enderecoNovo = enderecos.get(0);
@@ -62,7 +62,7 @@ public class EnderecoService {
         enderecoNovo.setPrincipal(endereco.isPrincipal());
 
         return repository.save(enderecoNovo);
-    }
+    } 
 
     
     @Transactional
@@ -70,7 +70,7 @@ public class EnderecoService {
         List<Endereco> enderecos = repository.findByEnderecoCpfPessoa(cpf);
 
         if (enderecos.size() == 0) {
-            throw new CreatePessoaException("Endereço não encontrado ");
+            throw new FindEnderecoException("Endereço não encontrado ");
         }
 
         Endereco endereco = enderecos.get(0);

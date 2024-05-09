@@ -83,8 +83,8 @@ public class PessoaServiceTest {
         assertEquals(pessoa.getCpf(), pessoaEncontrada.get().getCpf());
     }
 
-    @DisplayName("Display name")
     @Test
+    @DisplayName("Deve permitir a atualização dos dados da pessoa")
     void updatePessoa() {
         when(pessoaRepository.findByCpf(pessoa.getCpf())).thenReturn(Optional.of(pessoa)); 
         when(pessoaRepository.save(pessoa)).thenReturn(pessoa);
@@ -97,8 +97,8 @@ public class PessoaServiceTest {
         assertEquals("Laura", pessoaAtualizada.getNome());
     }
 
-    @DisplayName("Display name")
     @Test
+    @DisplayName("Deve permitir a exclusão da pessoa")
     void deletePessoa() {
         when(pessoaRepository.findByCpf(pessoa.getCpf())).thenReturn(Optional.of(pessoa)); 
 
@@ -107,8 +107,8 @@ public class PessoaServiceTest {
         verify(pessoaRepository, times(1)).delete(pessoa);
     }
 
-    @DisplayName("Display name")
     @Test
+    @DisplayName("Deve listar todos os registros")
     void findAll() {
 
         List<Pessoa> pessoas = new ArrayList<>();
@@ -121,4 +121,5 @@ public class PessoaServiceTest {
 
         assertTrue(pessoasEncontradas.isEmpty());
     }
+
 }

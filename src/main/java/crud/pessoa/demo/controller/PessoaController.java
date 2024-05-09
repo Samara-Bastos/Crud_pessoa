@@ -78,6 +78,7 @@ public class PessoaController {
 
 
     @DeleteMapping("/{cpf}")
+    //Anotação para passar um parametro na url, no caso um cpf
 	public ResponseEntity<?> deletar(@PathVariable String cpf) {
 		pessoaService.delete(cpf);
 		return ResponseEntity.noContent().build();

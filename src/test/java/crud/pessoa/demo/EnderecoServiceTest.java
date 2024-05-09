@@ -23,6 +23,7 @@ import org.springframework.data.domain.PageImpl;
 import java.util.Optional;
 import crud.pessoa.demo.dto.PessoaDTO;
 import crud.pessoa.demo.dto.PessoaListDTO;
+import crud.pessoa.demo.exceptions.FindEnderecoException;
 import crud.pessoa.demo.exceptions.FindPessoaException;
 import crud.pessoa.demo.models.Endereco;
 import crud.pessoa.demo.models.Pessoa;
@@ -42,17 +43,17 @@ public class EnderecoServiceTest {
     private EnderecoRepository enderecoRepository;
 
     @Mock
-    private EnderecoService enderecoService;
-
-    @Mock
-    private PessoaRepository pessoaRepository;
+    private PessoaService pessoaService;
 
     @InjectMocks
-    private PessoaService pessoaService;
+    private EnderecoService enderecoService;
+
 
     protected Pessoa pessoa;
 
     protected Endereco endereco;
+
+    protected List<Endereco> enderecos = new ArrayList<>();
 
     @BeforeEach
     void setup(){
@@ -60,40 +61,98 @@ public class EnderecoServiceTest {
         pessoa = new Pessoa("Aurora", "20040514", "37491502814");
 
         endereco = new Endereco("Rua das dores", 10, "Bairro Jardins", "Cidade São Paulo", "Estado São Paulo", "36011233",pessoa, false);
+
     }
 
-    // @Test
-    // @DisplayName("Tenta inserir um endereço, mas vai cair na exceção")
-    // void createEnderecoException() {
+    @Test
+    @DisplayName("Tenta inserir um endereço, mas vai cair na exceção")
+    void createEnderecoException() {
 
-    //     when(pessoaRepository.findByCpf(anyString())).thenReturn(Optional.empty());
+        when(pessoaService.findByPessoaCpf(anyString())).thenReturn(Optional.empty());
 
-    //     assertThrows(FindPessoaException.class, () -> enderecoService.create(endereco, pessoa.getCpf()));
-    // }
+        assertThrows(FindPessoaException.class, () -> enderecoService.create(endereco, pessoa.getCpf()));
+    }
 
     @Test
     @DisplayName("Deve inserir um endereço no banco")
     void createEndereco() {
 
-        when(pessoaRepository.findByCpf(anyString())).thenReturn(Optional.of(pessoa));
+        when(pessoaService.findByPessoaCpf(anyString())).thenReturn(Optional.of(pessoa));
 
         when(enderecoRepository.save(endereco)).thenReturn(endereco);
 
         Endereco enderecoCriado = enderecoService.create(endereco, pessoa.getCpf());
 
-        System.out.println("esse é o objeto pessoa"+pessoa.getCpf());
-        System.out.println("esse é o retorno do teste create "+endereco);
-        System.out.println("esse é o retorno do teste create "+enderecoCriado);
-
-        //assertNotNull(enderecoCriado.getCpf_pessoa());
-        // assertEquals("Rua das dores", enderecoCriado.getRua());
-        // assertEquals("36011233", enderecoCriado.getCep());
+        assertNotNull(enderecoCriado.getCpf_pessoa());
+        assertEquals("Rua das dores", enderecoCriado.getRua());
+        assertEquals("36011233", enderecoCriado.getCep());
     }
 
     
-    // @Test
-    // @DisplayName("Tenta atualizar um endereço, mas vai cair na exceção")
-    // void test() {
-    //     when(enderecoRepository.findByEnderecoCpfPessoa((anyString())).thenReturn(Lis));
-    // }
+    @Test
+    @DisplayName("Deve permitir a atualização dos dados do endereço")
+    void updateEndereco() {
+        enderecos.add(endereco);
+        
+        when(enderecoRepository.findByEnderecoCpfPessoa(anyString())).thenReturn(enderecos);
+        when(enderecoRepository.save(endereco)).thenReturn(endereco);
+
+        Endereco enderecoNovo = new Endereco("Praça São Sebastião", 15, "Centro", "Cidade de São Paulo", "Estado de São Paulo", "01002000", pessoa, true);
+
+        Endereco enderecoAtualizado = enderecoService.update(enderecoNovo, pessoa.getCpf());
+
+        assertNotNull(enderecoAtualizado);
+        assertEquals("Praça São Sebastião", enderecoAtualizado.getRua());
+    }
+
+    @Test
+    @DisplayName("Tenta atualizar um endereço, mas vai cair na exceção")
+    void updateEnderecoException() {
+        when(enderecoRepository.findByEnderecoCpfPessoa(anyString())).thenReturn(enderecos);
+        
+        assertThrows(FindEnderecoException.class, () -> {
+            
+            List<Endereco> enderecos = enderecoRepository.findByEnderecoCpfPessoa(pessoa.getCpf());
+
+            if (!enderecos.isEmpty()) {
+                // Se a lista não estiver vazia, tenta excluir o primeiro endereço
+                Endereco enderecoAtualizado = enderecos.get(0);
+                enderecoService.update(enderecoAtualizado,pessoa.getCpf());
+            } else {
+                // Se a lista estiver vazia, lança a exceção adequada
+                throw new FindEnderecoException("Endereço não encontrado");
+            }
+        }); 
+    }
+
+    @Test
+    @DisplayName("Deve permitir a exclusão do endereço")
+    void deleteEndereco() {
+        enderecos.add(endereco);
+
+        Endereco enderecoExcluido = enderecos.get(0);
+        enderecoRepository.delete(enderecoExcluido);
+
+        verify(enderecoRepository, times(1)).delete(enderecoExcluido);
+    }
+
+    @Test
+    @DisplayName("Tenta excluir um endereço, mas vai cair na exceção")
+    void deleteEnderecoException() {
+        when(enderecoRepository.findByEnderecoCpfPessoa(anyString())).thenReturn(enderecos);
+        
+        assertThrows(FindEnderecoException.class, () -> {
+            
+            List<Endereco> enderecos = enderecoRepository.findByEnderecoCpfPessoa(pessoa.getCpf());
+
+            if (!enderecos.isEmpty()) {
+                // Se a lista não estiver vazia, tenta excluir o primeiro endereço
+                Endereco enderecoExcluido = enderecos.get(0);
+                enderecoRepository.delete(enderecoExcluido);
+            } else {
+                // Se a lista estiver vazia, lança a exceção adequada
+                throw new FindEnderecoException("Endereço não encontrado");
+            }
+        });
+    }
 }

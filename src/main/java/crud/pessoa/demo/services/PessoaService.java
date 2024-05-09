@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import crud.pessoa.demo.dto.PessoaListDTO;
-import crud.pessoa.demo.exceptions.CreatePessoaException;
+import crud.pessoa.demo.exceptions.FindPessoaException;
 import crud.pessoa.demo.models.Pessoa;
 import crud.pessoa.demo.repository.PessoaRepository;
 import jakarta.transaction.Transactional;
@@ -30,7 +30,7 @@ public class PessoaService {
         Optional<Pessoa> pessoaReturn = findByPessoaCpf(pessoa.getCpf());
         
         if(pessoaReturn.isPresent()){
-            throw new CreatePessoaException("Já existe uma pessoa cadastrada com esse CPF");
+            throw new FindPessoaException("Já existe uma pessoa cadastrada com esse CPF");
             
         }
     
@@ -50,7 +50,7 @@ public class PessoaService {
 
     public Pessoa findById(Long id) {
 		logger.info("Pessoa");
-        return repository.findById(id).orElseThrow(() -> new CreatePessoaException("Pessoa não encontrada")); 
+        return repository.findById(id).orElseThrow(() -> new FindPessoaException("Pessoa não encontrada")); 
 	}
 
     
@@ -61,7 +61,7 @@ public class PessoaService {
         Optional<Pessoa> pessoaReturn = findByPessoaCpf(cpf);
         
         if(pessoaReturn.isEmpty()){
-            throw new CreatePessoaException("Pessoa não encontrada");
+            throw new FindPessoaException("Pessoa não encontrada");
             
         }
 
@@ -82,7 +82,7 @@ public class PessoaService {
         Optional<Pessoa> pessoaReturn = findByPessoaCpf(cpf);
 
         if (pessoaReturn.isEmpty()) {
-            throw new CreatePessoaException("Pessoa não encontrada");
+            throw new FindPessoaException("Pessoa não encontrada");
         }
 
         Pessoa pessoaParaExcluir = pessoaReturn.get();

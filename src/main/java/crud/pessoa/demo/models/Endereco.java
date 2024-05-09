@@ -37,7 +37,7 @@ public class Endereco {
     @Column(nullable = false, length = 30)
 	private String estado;
 
-    @Column(nullable = false, length = 8) 
+	@Column(nullable = false, length = 8) 
 	private String cep;
 
 	@Getter 
@@ -53,6 +53,18 @@ public class Endereco {
 	
 	
 	public Endereco(){}
+
+	public Endereco(String rua, int numero, String bairro, String cidade, String estado, String cep, Pessoa cpf_pessoa,
+			boolean principal) {
+		this.rua = rua;
+		this.numero = numero;
+		this.bairro = bairro;
+		this.cidade = cidade;
+		this.estado = estado;
+		this.cep = cep;
+		this.cpf_pessoa = cpf_pessoa;
+		this.principal = principal;
+	}
 
 	public Long getId(){
 		return this.id;

@@ -1,9 +1,9 @@
 package crud.pessoa.demo.exceptions;
 
-public class CreatePessoaException extends RuntimeException{
+public class FindEnderecoException extends RuntimeException {
     private static final long serialVersionUID = 1L;
     
-    public CreatePessoaException(String ex) {
+    public FindEnderecoException(String ex) {
         super(ex);
     }
 }

@@ -65,6 +65,7 @@ public class EnderecoController {
     }
 
     @DeleteMapping("/{cpf}")
+    //Anotação para passar um parametro na url, no caso um cpf
 	public ResponseEntity<?> deletar(@PathVariable String cpf) {
 		enderecoService.delete(cpf);
 		return ResponseEntity.noContent().build();
