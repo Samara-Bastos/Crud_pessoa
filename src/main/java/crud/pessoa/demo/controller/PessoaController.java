@@ -28,31 +28,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 
-//Anotação rest para indicar que essa classe é um controller
 @RestController 
-//Anotação para fazer o mapeamento da rota(dizer qual será a URL de acesso)
 @RequestMapping("/pessoa") 
 public class PessoaController {
 
-    //Anotação para fazer com que o Spring forneça automaticamente uma instância para essa classe (também conhecido como injeção de dependência)
     @Autowired
     private PessoaService pessoaService;
     @Autowired
     private PessoaMapper pessoaMapper;
 
 
-    //Anotação para indicar que a requisição será do tipo POST
     @PostMapping 
-    //Anotação para indicar para o spring que esse json está vindo do corpo da requisição
     public ResponseEntity<Pessoa> cadatrar(@RequestBody @Valid PessoaDTO pessoaDTO){ 
 
-        // Converte PessoaDTO para Pessoa usando o mapper
         Pessoa pessoa = pessoaMapper.dtoToPessoa(pessoaDTO);
 
-        //Chama a função para salvar no banco
         var result = pessoaService.create(pessoa); 
 
-        //Retorna um status de criação, a partir de uma requisição no corpo da página
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
         
     }
@@ -66,19 +58,15 @@ public class PessoaController {
 
     @PutMapping("/{cpf}")
     public ResponseEntity<Pessoa> atualizar(@PathVariable String cpf, @RequestBody PessoaDTO pessoaDTO) {
-        // Converte PessoaDTO para Pessoa usando o mapper
         Pessoa pessoa = pessoaMapper.dtoToPessoa(pessoaDTO);
         
-        //Chama a função para aualizar no banco
         var result = pessoaService.update(cpf, pessoa); 
 
-        //Retorna um status de criação, a partir de uma requisição no corpo da página
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
 
     @DeleteMapping("/{cpf}")
-    //Anotação para passar um parametro na url, no caso um cpf
 	public ResponseEntity<?> deletar(@PathVariable String cpf) {
 		pessoaService.delete(cpf);
 		return ResponseEntity.noContent().build();

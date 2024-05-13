@@ -19,7 +19,6 @@ public class EnderecoService {
 
     private Logger logger = Logger.getLogger(EnderecoService.class.getName());
 
-    //Anotação para fazer com que o Spring forneça automaticamente uma instância para essa classe (também conhecido como injeção de dependência)
     @Autowired
     private EnderecoRepository repository;
  

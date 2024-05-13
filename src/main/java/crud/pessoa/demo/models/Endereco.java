@@ -118,14 +118,6 @@ public class Endereco {
 		this.cep = cep;
 	}
 
-	// public Pessoa getCpfPessoa(){
-	// 	return this.cpf_pessoa;
-	// }
-	
-	// public void setCpfPessoa(Pessoa cpf_pessoa) {
-	// 	this.cpf_pessoa = cpf_pessoa;
-	// }
-
 	public boolean isPrincipal() {
 		return principal;
 	}

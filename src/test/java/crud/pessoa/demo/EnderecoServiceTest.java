@@ -116,11 +116,9 @@ public class EnderecoServiceTest {
             List<Endereco> enderecos = enderecoRepository.findByEnderecoCpfPessoa(pessoa.getCpf());
 
             if (!enderecos.isEmpty()) {
-                // Se a lista não estiver vazia, tenta excluir o primeiro endereço
                 Endereco enderecoAtualizado = enderecos.get(0);
                 enderecoService.update(enderecoAtualizado,pessoa.getCpf());
             } else {
-                // Se a lista estiver vazia, lança a exceção adequada
                 throw new FindEnderecoException("Endereço não encontrado");
             }
         }); 
@@ -147,10 +145,8 @@ public class EnderecoServiceTest {
             List<Endereco> enderecos = enderecoRepository.findByEnderecoCpfPessoa(pessoa.getCpf());
 
             if (enderecos.size() == 0) {
-                // Se a lista estiver vazia, lança a exceção adequada
                 throw new FindEnderecoException("Endereço não encontrado");
             } else {
-                // Se a lista não estiver vazia, tenta excluir o primeiro endereço
                 Endereco enderecoExcluido = enderecos.get(0);
                 enderecoRepository.delete(enderecoExcluido);
             }
