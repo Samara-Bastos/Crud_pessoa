@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PessoaService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">crud.pessoa.demo.services</a> &gt; <span class="el_source">PessoaService.java</span></div><h1>PessoaService.java</h1><pre class="source lang-java linenums">package crud.pessoa.demo.services;
+
+import java.util.Optional;
+import java.time.Period;
+import java.util.List;
+import java.util.logging.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import crud.pessoa.demo.dto.PessoaListDTO;
+import crud.pessoa.demo.exceptions.FindPessoaException;
+import crud.pessoa.demo.models.Pessoa;
+import crud.pessoa.demo.repository.PessoaRepository;
+import jakarta.transaction.Transactional;
+
+@Service
+<span class="fc" id="L19">public class PessoaService {</span>
+
+<span class="fc" id="L21">    private Logger logger = Logger.getLogger(PessoaService.class.getName());</span>
+
+    //Anotação para fazer com que o Spring forneça automaticamente uma instância para essa classe (também conhecido como injeção de dependência)
+    @Autowired
+    private PessoaRepository repository;
+ 
+    @Transactional //Anotação para fazer uma ligação direta com o banco de dados
+    public Pessoa create(Pessoa pessoa){
+<span class="fc" id="L29">        logger.info(&quot;Inserção de uma pessoa&quot;);</span>
+
+<span class="fc" id="L31">        Optional&lt;Pessoa&gt; pessoaReturn = findByPessoaCpf(pessoa.getCpf());</span>
+        
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">        if(pessoaReturn.isPresent()){</span>
+<span class="nc" id="L34">            throw new FindPessoaException(&quot;Já existe uma pessoa cadastrada com esse CPF&quot;);</span>
+            
+        }
+
+<span class="fc" id="L38">        return repository.save(pessoa);</span>
+    }
+
+    public void calculaIdade(Pessoa pessoa){
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">        if (pessoa.getNascimento() != null) {</span>
+<span class="fc" id="L43">            Period periodo = Period.between(pessoa.getNascimento(), pessoa.getAnoAtual());</span>
+<span class="fc" id="L44">            pessoa.setIdade(periodo.getYears());</span>
+        }
+<span class="fc" id="L46">    }</span>
+
+  
+    public Optional&lt;Pessoa&gt; findByPessoaCpf(String cpf){
+<span class="fc" id="L50">        return repository.findByCpf(cpf);</span>
+    }
+
+
+    public Page&lt;Object&gt; findAll(Pageable paginacao) {
+<span class="fc" id="L55">        logger.info(&quot;Pessoas cadastradas&quot;);</span>
+<span class="fc" id="L56">		return repository.findAll(paginacao).map(pessoa -&gt; {</span>
+<span class="nc" id="L57">            calculaIdade(pessoa); // Calcular idade para cada pessoa</span>
+<span class="nc" id="L58">            return new PessoaListDTO(pessoa);</span>
+        });
+	}
+
+    public Pessoa findById(Long id) {
+<span class="fc" id="L63">		logger.info(&quot;Pessoa&quot;);</span>
+<span class="pc" id="L64">        return repository.findById(id).orElseThrow(() -&gt; new FindPessoaException(&quot;Pessoa não encontrada&quot;)); </span>
+	}
+
+    
+    @Transactional //Anotação para fazer uma ligação direta com o banco de dados
+    public Pessoa update(String cpf, Pessoa pessoa){
+<span class="fc" id="L70">        logger.info(&quot;Atualização de uma pessoa&quot;);</span>
+
+<span class="fc" id="L72">        Optional&lt;Pessoa&gt; pessoaReturn = findByPessoaCpf(cpf);</span>
+        
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        if(pessoaReturn.isEmpty()){</span>
+<span class="nc" id="L75">            throw new FindPessoaException(&quot;Pessoa não encontrada&quot;);</span>
+            
+        }
+
+<span class="fc" id="L79">        Pessoa pessoaNova = pessoaReturn.get();</span>
+
+<span class="fc" id="L81">        pessoaNova.setNome(pessoa.getNome());</span>
+<span class="fc" id="L82">        pessoaNova.setNascimento(pessoa.getNascimento());</span>
+<span class="fc" id="L83">        pessoaNova.setCpf(pessoa.getCpf());</span>
+        
+<span class="fc" id="L85">        calculaIdade(pessoaNova);</span>
+<span class="fc" id="L86">        return repository.save(pessoaNova);</span>
+    }
+
+
+    @Transactional
+    public void delete(String cpf) {
+<span class="fc" id="L92">        logger.info(&quot;Exclusão de uma pessoa&quot;);</span>
+
+<span class="fc" id="L94">        Optional&lt;Pessoa&gt; pessoaReturn = findByPessoaCpf(cpf);</span>
+
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">        if (pessoaReturn.isEmpty()) {</span>
+<span class="nc" id="L97">            throw new FindPessoaException(&quot;Pessoa não encontrada&quot;);</span>
+        }
+
+<span class="fc" id="L100">        Pessoa pessoaParaExcluir = pessoaReturn.get();</span>
+<span class="fc" id="L101">        repository.delete(pessoaParaExcluir);</span>
+<span class="fc" id="L102">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

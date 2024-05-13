@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PessoaController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">crud.pessoa.demo.controller</a> &gt; <span class="el_source">PessoaController.java</span></div><h1>PessoaController.java</h1><pre class="source lang-java linenums">package crud.pessoa.demo.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import crud.pessoa.demo.dto.PessoaDTO;
+import crud.pessoa.demo.dto.PessoaListDTO;
+import crud.pessoa.demo.mapper.PessoaMapper;
+import crud.pessoa.demo.models.Pessoa;
+import crud.pessoa.demo.services.PessoaService;
+import jakarta.validation.Valid;
+import java.util.List;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+
+
+//Anotação rest para indicar que essa classe é um controller
+@RestController 
+//Anotação para fazer o mapeamento da rota(dizer qual será a URL de acesso)
+@RequestMapping(&quot;/pessoa&quot;) 
+<span class="nc" id="L35">public class PessoaController {</span>
+
+    //Anotação para fazer com que o Spring forneça automaticamente uma instância para essa classe (também conhecido como injeção de dependência)
+    @Autowired
+    private PessoaService pessoaService;
+    @Autowired
+    private PessoaMapper pessoaMapper;
+
+
+    //Anotação para indicar que a requisição será do tipo POST
+    @PostMapping 
+    //Anotação para indicar para o spring que esse json está vindo do corpo da requisição
+    public ResponseEntity&lt;Pessoa&gt; cadatrar(@RequestBody @Valid PessoaDTO pessoaDTO){ 
+
+        // Converte PessoaDTO para Pessoa usando o mapper
+<span class="nc" id="L50">        Pessoa pessoa = pessoaMapper.dtoToPessoa(pessoaDTO);</span>
+
+        //Chama a função para salvar no banco
+<span class="nc" id="L53">        var result = pessoaService.create(pessoa); </span>
+
+        //Retorna um status de criação, a partir de uma requisição no corpo da página
+<span class="nc" id="L56">        return ResponseEntity.status(HttpStatus.CREATED).body(result);</span>
+        
+    }
+
+    
+    @GetMapping()
+    public Page&lt;Object&gt; exibirTodos(Pageable paginacao) {
+<span class="nc" id="L63">		return pessoaService.findAll(paginacao);</span>
+	}
+
+
+    @PutMapping(&quot;/{cpf}&quot;)
+    public ResponseEntity&lt;Pessoa&gt; atualizar(@PathVariable String cpf, @RequestBody PessoaDTO pessoaDTO) {
+        // Converte PessoaDTO para Pessoa usando o mapper
+<span class="nc" id="L70">        Pessoa pessoa = pessoaMapper.dtoToPessoa(pessoaDTO);</span>
+        
+        //Chama a função para aualizar no banco
+<span class="nc" id="L73">        var result = pessoaService.update(cpf, pessoa); </span>
+
+        //Retorna um status de criação, a partir de uma requisição no corpo da página
+<span class="nc" id="L76">        return ResponseEntity.status(HttpStatus.OK).body(result);</span>
+    }
+
+
+    @DeleteMapping(&quot;/{cpf}&quot;)
+    //Anotação para passar um parametro na url, no caso um cpf
+	public ResponseEntity&lt;?&gt; deletar(@PathVariable String cpf) {
+<span class="nc" id="L83">		pessoaService.delete(cpf);</span>
+<span class="nc" id="L84">		return ResponseEntity.noContent().build();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

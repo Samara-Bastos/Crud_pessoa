@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="crud.pessoa.demo.PessoaServiceTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2024-05-09T17:05:32" hostname="DBS-1141" time="0.253">
+  <properties/>
+  <testcase name="Deve permitir a atualização dos dados da pessoa" classname="crud.pessoa.demo.PessoaServiceTest" time="0.187"/>
+  <testcase name="Deve permitir a exclusão da pessoa" classname="crud.pessoa.demo.PessoaServiceTest" time="0.01"/>
+  <testcase name="Deve listar todos os registros" classname="crud.pessoa.demo.PessoaServiceTest" time="0.024"/>
+  <testcase name="Encontra uma pessoa no banco através do CPF" classname="crud.pessoa.demo.PessoaServiceTest" time="0.009"/>
+  <testcase name="Encontra uma pessoa no banco através do CPF" classname="crud.pessoa.demo.PessoaServiceTest" time="0.005"/>
+  <testcase name="Deve inserir pessoa no banco" classname="crud.pessoa.demo.PessoaServiceTest" time="0.007"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[May 09, 2024 2:05:32 PM crud.pessoa.demo.services.PessoaService update
+INFO: Atualização de uma pessoa
+May 09, 2024 2:05:32 PM crud.pessoa.demo.services.PessoaService delete
+INFO: Exclusão de uma pessoa
+May 09, 2024 2:05:32 PM crud.pessoa.demo.services.PessoaService findAll
+INFO: Pessoas cadastradas
+May 09, 2024 2:05:32 PM crud.pessoa.demo.services.PessoaService findById
+INFO: Pessoa
+May 09, 2024 2:05:32 PM crud.pessoa.demo.services.PessoaService create
+INFO: Inserção de uma pessoa
+]]></system-err>
+</testsuite>

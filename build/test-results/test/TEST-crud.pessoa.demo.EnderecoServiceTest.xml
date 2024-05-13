@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="crud.pessoa.demo.EnderecoServiceTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2024-05-09T17:05:29" hostname="DBS-1141" time="2.711">
+  <properties/>
+  <testcase name="Tenta inserir um endereço, mas vai cair na exceção" classname="crud.pessoa.demo.EnderecoServiceTest" time="2.609"/>
+  <testcase name="Deve permitir a atualização dos dados do endereço" classname="crud.pessoa.demo.EnderecoServiceTest" time="0.023"/>
+  <testcase name="Deve inserir um endereço no banco" classname="crud.pessoa.demo.EnderecoServiceTest" time="0.011"/>
+  <testcase name="Tenta atualizar um endereço, mas vai cair na exceção" classname="crud.pessoa.demo.EnderecoServiceTest" time="0.008"/>
+  <testcase name="Deve permitir a exclusão do endereço" classname="crud.pessoa.demo.EnderecoServiceTest" time="0.032"/>
+  <testcase name="Tenta excluir um endereço, mas vai cair na exceção" classname="crud.pessoa.demo.EnderecoServiceTest" time="0.009"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[May 09, 2024 2:05:31 PM crud.pessoa.demo.services.EnderecoService create
+INFO: Inserção de um endereço
+May 09, 2024 2:05:32 PM crud.pessoa.demo.services.EnderecoService create
+INFO: Inserção de um endereço
+]]></system-err>
+</testsuite>

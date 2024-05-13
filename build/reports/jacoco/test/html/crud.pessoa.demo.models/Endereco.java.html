@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Endereco.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">crud.pessoa.demo.models</a> &gt; <span class="el_source">Endereco.java</span></div><h1>Endereco.java</h1><pre class="source lang-java linenums">package crud.pessoa.demo.models;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Table(name = &quot;Endereco&quot;)
+public class Endereco {
+    
+    @Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(nullable = false, length = 80)
+	private String rua;
+
+	@Column(nullable = false, length = 5)
+	private int numero;
+	
+	@Column(nullable = false, length = 30)
+	private String bairro;
+
+    @Column(nullable = false, length = 30)
+	private String cidade;
+
+    @Column(nullable = false, length = 30)
+	private String estado;
+
+	@Column(nullable = false, length = 8) 
+	private String cep;
+
+<span class="fc" id="L43">	@Getter </span>
+<span class="fc" id="L44">	@Setter</span>
+	@ManyToOne
+	@JsonBackReference
+	@JsonIgnore
+	@JoinColumn(name = &quot;cpf_pessoa&quot;, referencedColumnName = &quot;cpf&quot;)
+	private Pessoa cpf_pessoa;
+
+	@Column(nullable = true)
+	private boolean principal;
+	
+	
+<span class="nc" id="L55">	public Endereco(){}</span>
+
+	public Endereco(String rua, int numero, String bairro, String cidade, String estado, String cep, Pessoa cpf_pessoa,
+<span class="fc" id="L58">			boolean principal) {</span>
+<span class="fc" id="L59">		this.rua = rua;</span>
+<span class="fc" id="L60">		this.numero = numero;</span>
+<span class="fc" id="L61">		this.bairro = bairro;</span>
+<span class="fc" id="L62">		this.cidade = cidade;</span>
+<span class="fc" id="L63">		this.estado = estado;</span>
+<span class="fc" id="L64">		this.cep = cep;</span>
+<span class="fc" id="L65">		this.cpf_pessoa = cpf_pessoa;</span>
+<span class="fc" id="L66">		this.principal = principal;</span>
+<span class="fc" id="L67">	}</span>
+
+	public Long getId(){
+<span class="nc" id="L70">		return this.id;</span>
+	}
+
+	public String getRua(){
+<span class="fc" id="L74">		return this.rua;</span>
+	}
+
+	public void setRua(String rua){
+<span class="fc" id="L78">		this.rua = rua;</span>
+<span class="fc" id="L79">	}</span>
+
+	public int getNumero(){
+<span class="fc" id="L82">		return this.numero;</span>
+	}
+
+	public void setNumero(int numero){
+<span class="fc" id="L86">		this.numero = numero;</span>
+<span class="fc" id="L87">	}</span>
+
+	public String getBairro(){
+<span class="fc" id="L90">		return this.bairro;</span>
+	}
+
+	public void setBairro(String bairro){
+<span class="fc" id="L94">		this.bairro = bairro;</span>
+<span class="fc" id="L95">	}</span>
+
+	public String getCidade(){
+<span class="fc" id="L98">		return this.cidade;</span>
+	}
+
+	public void setCidade(String cidade){
+<span class="fc" id="L102">		this.cidade = cidade;</span>
+<span class="fc" id="L103">	}</span>
+
+	public String getEstado(){
+<span class="fc" id="L106">		return estado;</span>
+	}
+
+	public void setEstado(String estado){
+<span class="fc" id="L110">		this.estado = estado;</span>
+<span class="fc" id="L111">	}</span>
+
+	public String getCep(){
+<span class="fc" id="L114">		return cep;</span>
+	}
+
+	public void setCep(String cep){
+<span class="fc" id="L118">		this.cep = cep;</span>
+<span class="fc" id="L119">	}</span>
+
+	// public Pessoa getCpfPessoa(){
+	// 	return this.cpf_pessoa;
+	// }
+	
+	// public void setCpfPessoa(Pessoa cpf_pessoa) {
+	// 	this.cpf_pessoa = cpf_pessoa;
+	// }
+
+	public boolean isPrincipal() {
+<span class="fc" id="L130">		return principal;</span>
+	}
+
+	public void setPrincipal(boolean principal) {
+<span class="fc" id="L134">		this.principal = principal;</span>
+<span class="fc" id="L135">	}</span>
+
+	@Override
+    public String toString() {
+<span class="nc" id="L139">        return &quot;Endereço { &quot; +</span>
+<span class="nc" id="L140">                &quot; ID= &quot; + this.getId() +</span>
+<span class="nc" id="L141">				&quot; Rua= &quot; + this.getRua() +</span>
+<span class="nc" id="L142">				&quot; Numero= &quot; + this.getNumero() +</span>
+<span class="nc" id="L143">				&quot; Bairro= &quot; + this.getBairro() +</span>
+<span class="nc" id="L144">				&quot; Cidade= &quot; + this.getCidade() +</span>
+<span class="nc" id="L145">				&quot; Estado= &quot; + this.getEstado() +</span>
+<span class="nc" id="L146">				&quot; CEP= &quot; + this.getCep() +</span>
+<span class="nc" id="L147">				&quot;CPF Pessoa&quot; + this.getCpf_pessoa()+</span>
+                '}';
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

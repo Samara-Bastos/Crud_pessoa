@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Pessoa.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">crud.pessoa.demo.models</a> &gt; <span class="el_source">Pessoa.java</span></div><h1>Pessoa.java</h1><pre class="source lang-java linenums">package crud.pessoa.demo.models;
+
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import lombok.Getter;
+
+@Entity
+@Table(name = &quot;Pessoa&quot;)
+public class Pessoa {
+    
+    @Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(nullable = false, length = 80)
+	private String nome;
+
+	@Column(nullable = true, length = 11)
+	private LocalDate nascimento;
+	
+	@Column(nullable = false, length = 11, unique = true)
+	private String cpf;
+
+<span class="pc" id="L38">	@Getter </span>
+	@OneToMany(mappedBy = &quot;cpf_pessoa&quot;, cascade = CascadeType.ALL)
+	@JsonIgnore
+    @JsonManagedReference
+	private List&lt;Endereco&gt; enderecos = new ArrayList&lt;&gt;();
+
+<span class="pc" id="L44">	@Transient //Anotação usada para garantir que esse atributo não seja salvo no banco</span>
+<span class="pc" id="L45">	private LocalDate anoAtual = LocalDate.now();</span>
+
+	@Transient
+	private int idade;
+
+	//Construtor vazio
+<span class="nc" id="L51">	public Pessoa(){}; </span>
+
+<span class="fc" id="L53">	public Pessoa(String nome, LocalDate nascimento, String cpf) {</span>
+<span class="fc" id="L54">		this.nome = nome;</span>
+<span class="fc" id="L55">		this.nascimento = nascimento;</span>
+<span class="fc" id="L56">		this.cpf = cpf;</span>
+<span class="fc" id="L57">	}</span>
+
+	public long getId(){
+<span class="nc" id="L60">		return this.id;</span>
+	}
+
+	public String getNome(){
+<span class="fc" id="L64">		return this.nome;</span>
+	}
+
+	public void setNome(String nome){
+<span class="fc" id="L68">		this.nome = nome;</span>
+<span class="fc" id="L69">	}</span>
+
+	public LocalDate getNascimento(){
+<span class="fc" id="L72">		return this.nascimento;</span>
+	}
+
+	public void setNascimento(LocalDate nascimento){
+<span class="fc" id="L76">		this.nascimento = nascimento;</span>
+<span class="fc" id="L77">	}</span>
+
+	public String getCpf(){
+<span class="fc" id="L80">		return this.cpf;</span>
+	}
+
+	public void setCpf(String cpf){
+<span class="fc" id="L84">		this.cpf = cpf;</span>
+<span class="fc" id="L85">	}</span>
+
+	public LocalDate getAnoAtual(){
+<span class="fc" id="L88">		return this.anoAtual;</span>
+	}
+
+	public int getIdade(){
+<span class="nc" id="L92">		return this.idade;</span>
+	}
+
+	public void setIdade(int idade){
+<span class="fc" id="L96">		this.idade = idade;</span>
+<span class="fc" id="L97">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
