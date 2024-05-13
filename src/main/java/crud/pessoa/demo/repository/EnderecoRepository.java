@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import crud.pessoa.demo.models.Endereco;
 import crud.pessoa.demo.models.Pessoa;
 
-//No JpaRepository <O primeiro parametro é a entidade especifica, o segundo parametro é o tipo da sua chave primaria>
 @Repository
 public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
 

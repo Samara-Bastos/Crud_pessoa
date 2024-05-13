@@ -20,11 +20,10 @@ public class PessoaService {
 
     private Logger logger = Logger.getLogger(PessoaService.class.getName());
 
-    //Anotação para fazer com que o Spring forneça automaticamente uma instância para essa classe (também conhecido como injeção de dependência)
     @Autowired
     private PessoaRepository repository;
  
-    @Transactional //Anotação para fazer uma ligação direta com o banco de dados
+    @Transactional 
     public Pessoa create(Pessoa pessoa){
         logger.info("Inserção de uma pessoa");
 
@@ -65,7 +64,7 @@ public class PessoaService {
 	}
 
     
-    @Transactional //Anotação para fazer uma ligação direta com o banco de dados
+    @Transactional
     public Pessoa update(String cpf, Pessoa pessoa){
         logger.info("Atualização de uma pessoa");
 

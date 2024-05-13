@@ -11,11 +11,9 @@ import crud.pessoa.demo.models.Pessoa;
 @Mapper(componentModel = "spring")
 public interface PessoaMapper {
 
-    // Obtem uma instância do mapeador através do método estático Mappers.getMapper
     PessoaMapper INSTANCE = Mappers.getMapper(PessoaMapper.class);
 
     PessoaDTO pessoaToDTO(Pessoa pessoa);
 
-    // @Mapping(target = "enderecos", ignore = true) // Ignora o mapeamento do atributo enderecos
     Pessoa dtoToPessoa(PessoaDTO dto); // Mapeia um DTO PessoaDTO para uma entidade Pessoa
 }
