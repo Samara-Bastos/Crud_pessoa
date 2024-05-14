@@ -34,16 +34,12 @@ public class PessoaController {
 
     @Autowired
     private PessoaService pessoaService;
-    @Autowired
-    private PessoaMapper pessoaMapper;
 
 
     @PostMapping 
     public ResponseEntity<Pessoa> cadatrar(@RequestBody @Valid PessoaDTO pessoaDTO){ 
 
-        Pessoa pessoa = pessoaMapper.dtoToPessoa(pessoaDTO);
-
-        var result = pessoaService.create(pessoa); 
+        var result = pessoaService.create(pessoaDTO); 
 
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
         
@@ -58,17 +54,19 @@ public class PessoaController {
 
     @PutMapping("/{cpf}")
     public ResponseEntity<Pessoa> atualizar(@PathVariable String cpf, @RequestBody PessoaDTO pessoaDTO) {
-        Pessoa pessoa = pessoaMapper.dtoToPessoa(pessoaDTO);
         
-        var result = pessoaService.update(cpf, pessoa); 
+        var result = pessoaService.update(cpf, pessoaDTO); 
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
 
     @DeleteMapping("/{cpf}")
-	public ResponseEntity<?> deletar(@PathVariable String cpf) {
+	public ResponseEntity<Void> deletar(@PathVariable String cpf) {
+
 		pessoaService.delete(cpf);
+        
 		return ResponseEntity.noContent().build();
 	}
 }
+

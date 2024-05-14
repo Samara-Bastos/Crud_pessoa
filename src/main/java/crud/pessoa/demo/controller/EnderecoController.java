@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import crud.pessoa.demo.dto.EnderecoAtualizaDTO;
 import crud.pessoa.demo.dto.EnderecoDTO;
 import crud.pessoa.demo.dto.PessoaDTO;
-import crud.pessoa.demo.mapper.EnderecoMapper;
 import crud.pessoa.demo.models.Endereco;
 import crud.pessoa.demo.models.Pessoa;
 import crud.pessoa.demo.services.EnderecoService;
@@ -31,15 +30,11 @@ public class EnderecoController {
     @Autowired
     private EnderecoService enderecoService;
 
-    @Autowired
-    private EnderecoMapper enderecoMapper;
 
     @PostMapping 
     public ResponseEntity<Endereco> cadatrar(@RequestBody @Valid EnderecoDTO enderecoDTO){ 
 
-        Endereco endereco = enderecoMapper.dtoToEndereco(enderecoDTO);
-
-        var result = enderecoService.create(endereco, enderecoDTO.cpf_pessoa()); 
+        var result = enderecoService.create(enderecoDTO, enderecoDTO.cpf_pessoa()); 
 
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
         
@@ -48,16 +43,16 @@ public class EnderecoController {
     @PutMapping("/{cpf}")
     public ResponseEntity<Endereco> atualizar(@PathVariable String cpf, @RequestBody EnderecoAtualizaDTO enderecoDTO) {
     
-        Endereco endereco = enderecoMapper.dtoAtualizaToEndereco(enderecoDTO);
-        
-        var result = enderecoService.update(endereco, cpf); 
+        var result = enderecoService.update(enderecoDTO, cpf); 
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @DeleteMapping("/{cpf}")
-	public ResponseEntity<?> deletar(@PathVariable String cpf) {
+	public ResponseEntity<Void> deletar(@PathVariable String cpf) {
+
 		enderecoService.delete(cpf);
+        
 		return ResponseEntity.noContent().build();
 	}
 
