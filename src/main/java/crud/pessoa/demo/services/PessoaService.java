@@ -9,8 +9,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import crud.pessoa.demo.dto.PessoaDTO;
 import crud.pessoa.demo.dto.PessoaListDTO;
 import crud.pessoa.demo.exceptions.FindPessoaException;
+import crud.pessoa.demo.exceptions.NotFoundPessoaException;
+import crud.pessoa.demo.mapper.PessoaMapper;
 import crud.pessoa.demo.models.Pessoa;
 import crud.pessoa.demo.repository.PessoaRepository;
 import jakarta.transaction.Transactional;
@@ -24,8 +27,10 @@ public class PessoaService {
     private PessoaRepository repository;
  
     @Transactional 
-    public Pessoa create(Pessoa pessoa){
+    public Pessoa create(PessoaDTO pessoaDTO){
         logger.info("Inserção de uma pessoa");
+
+        Pessoa pessoa = PessoaMapper.INSTANCE.dtoToPessoa(pessoaDTO);
 
         Optional<Pessoa> pessoaReturn = findByPessoaCpf(pessoa.getCpf());
         
@@ -60,18 +65,20 @@ public class PessoaService {
 
     public Pessoa findById(Long id) {
 		logger.info("Pessoa");
-        return repository.findById(id).orElseThrow(() -> new FindPessoaException("Pessoa não encontrada")); 
+        return repository.findById(id).orElseThrow(() -> new NotFoundPessoaException("Pessoa não encontrada")); 
 	}
 
     
     @Transactional
-    public Pessoa update(String cpf, Pessoa pessoa){
+    public Pessoa update(String cpf, PessoaDTO pessoaDTO){
         logger.info("Atualização de uma pessoa");
+
+        Pessoa pessoa = PessoaMapper.INSTANCE.dtoToPessoa(pessoaDTO);
 
         Optional<Pessoa> pessoaReturn = findByPessoaCpf(cpf);
         
         if(pessoaReturn.isEmpty()){
-            throw new FindPessoaException("Pessoa não encontrada");
+            throw new NotFoundPessoaException("Pessoa não encontrada");
             
         }
 
@@ -81,7 +88,6 @@ public class PessoaService {
         pessoaNova.setNascimento(pessoa.getNascimento());
         pessoaNova.setCpf(pessoa.getCpf());
         
-        calculaIdade(pessoaNova);
         return repository.save(pessoaNova);
     }
 
@@ -93,7 +99,7 @@ public class PessoaService {
         Optional<Pessoa> pessoaReturn = findByPessoaCpf(cpf);
 
         if (pessoaReturn.isEmpty()) {
-            throw new FindPessoaException("Pessoa não encontrada");
+            throw new NotFoundPessoaException("Pessoa não encontrada");
         }
 
         Pessoa pessoaParaExcluir = pessoaReturn.get();
