@@ -28,8 +28,9 @@ import crud.pessoa.demo.dto.EnderecoAtualizaDTO;
 import crud.pessoa.demo.dto.EnderecoDTO;
 import crud.pessoa.demo.dto.PessoaDTO;
 import crud.pessoa.demo.dto.PessoaListDTO;
-import crud.pessoa.demo.exceptions.FindEnderecoException;
-import crud.pessoa.demo.exceptions.FindPessoaException;
+import crud.pessoa.demo.exceptions.NotFoundEnderecoException;
+import crud.pessoa.demo.exceptions.NotFoundPessoaException;
+import crud.pessoa.demo.exceptions.NotFoundPessoaException;
 import crud.pessoa.demo.models.Endereco;
 import crud.pessoa.demo.models.Pessoa;
 import crud.pessoa.demo.repository.EnderecoRepository;
@@ -100,7 +101,7 @@ public class EnderecoServiceTest {
 
         when(pessoaService.findByPessoaCpf(anyString())).thenReturn(Optional.empty());
 
-        assertThrows(FindPessoaException.class, () -> enderecoService.create(enderecoDTO, pessoa.getCpf()));
+        assertThrows(NotFoundPessoaException.class, () -> enderecoService.create(enderecoDTO, pessoa.getCpf()));
     }
 
     
@@ -124,14 +125,14 @@ public class EnderecoServiceTest {
     void updateEnderecoException() {
         when(enderecoRepository.findByEnderecoCpfPessoa(anyString())).thenReturn(enderecos);
         
-        assertThrows(FindEnderecoException.class, () -> {
+        assertThrows(NotFoundEnderecoException.class, () -> {
             
             List<Endereco> enderecos = enderecoRepository.findByEnderecoCpfPessoa(pessoa.getCpf());
 
             if (!enderecos.isEmpty()) {
                 enderecoService.update(enderecoAtualizaDTO,pessoa.getCpf());
             } else {
-                throw new FindEnderecoException("Endereço não encontrado");
+                throw new NotFoundEnderecoException("Endereço não encontrado");
             }
         }); 
     }
@@ -152,12 +153,12 @@ public class EnderecoServiceTest {
     void deleteEnderecoException() {
         when(enderecoRepository.findByEnderecoCpfPessoa(anyString())).thenReturn(enderecos);
         
-        assertThrows(FindEnderecoException.class, () -> {
+        assertThrows(NotFoundEnderecoException.class, () -> {
             
             List<Endereco> enderecos = enderecoRepository.findByEnderecoCpfPessoa(pessoa.getCpf());
 
             if (enderecos.size() == 0) {
-                throw new FindEnderecoException("Endereço não encontrado");
+                throw new NotFoundEnderecoException("Endereço não encontrado");
             } else {
                 Endereco enderecoExcluido = enderecos.get(0);
                 enderecoRepository.delete(enderecoExcluido);

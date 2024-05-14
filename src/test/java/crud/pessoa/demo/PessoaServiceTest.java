@@ -68,7 +68,7 @@ public class PessoaServiceTest {
     }
 
     @Test
-    @DisplayName("Encontra uma pessoa no banco através do CPF")
+    @DisplayName("Encontra uma pessoa no banco através do Id")
     void findById() {
 
         when(pessoaRepository.findById(anyLong())).thenReturn(Optional.of(pessoa)); 
