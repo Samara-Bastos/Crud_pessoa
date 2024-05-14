@@ -11,4 +11,11 @@ public class ErrorHandler {
     public ResponseEntity<String> handleErrorNotFoundPessoaException(NotFoundPessoaException e){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
+
+    @ExceptionHandler(NotFoundEnderecoException.class)
+    public ResponseEntity<String> handleErrorNotFoundEnderecoException(NotFoundEnderecoException e){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+    
 }
