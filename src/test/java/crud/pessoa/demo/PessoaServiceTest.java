@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -21,7 +23,6 @@ import org.springframework.data.domain.PageImpl;
 
 import java.util.Optional;
 import crud.pessoa.demo.dto.PessoaDTO;
-import crud.pessoa.demo.dto.PessoaListDTO;
 import crud.pessoa.demo.models.Pessoa;
 import crud.pessoa.demo.repository.PessoaRepository;
 import crud.pessoa.demo.services.PessoaService;
@@ -43,18 +44,23 @@ public class PessoaServiceTest {
 
     private Pessoa pessoa;
 
+    private PessoaDTO pessoaDTO;
+
     @BeforeEach
     public void personSetup() {
         pessoa = new Pessoa("Aurora", LocalDate.of(2004,05,01), "37491502814");
+
+        pessoaDTO = mock(PessoaDTO.class);
     }
 
     @Test
     @DisplayName("Deve inserir pessoa no banco")
     void createPessoa() {
         when(pessoaRepository.findByCpf(anyString())).thenReturn(Optional.empty());
-        when((pessoaRepository.save(pessoa))).thenReturn(pessoa);
+        when(pessoaRepository.save(ArgumentMatchers.any(Pessoa.class))).thenReturn(pessoa);
+        when(pessoaDTO.cpf()).thenReturn("37491502814");
 
-        Pessoa pessoaCriada = pessoaService.create(pessoa);
+        Pessoa pessoaCriada = pessoaService.create(pessoaDTO);
 
         assertEquals(pessoaCriada.getNome(), "Aurora");
         assertEquals(pessoaCriada.getNascimento(), LocalDate.of(2004,05,01));
@@ -89,10 +95,10 @@ public class PessoaServiceTest {
     void updatePessoa() {
         when(pessoaRepository.findByCpf(pessoa.getCpf())).thenReturn(Optional.of(pessoa)); 
         when(pessoaRepository.save(pessoa)).thenReturn(pessoa);
+        when(pessoaDTO.cpf()).thenReturn("37491502814");
+        when(pessoaDTO.nome()).thenReturn("Laura");
 
-        Pessoa pessoaNova = new Pessoa("Laura",LocalDate.of(2000,10,10),"89503058015");
-
-        Pessoa pessoaAtualizada = pessoaService.update(pessoa.getCpf(), pessoaNova);
+        Pessoa pessoaAtualizada = pessoaService.update(pessoa.getCpf(), pessoaDTO);
 
         assertNotNull(pessoaAtualizada);
         assertEquals("Laura", pessoaAtualizada.getNome());
