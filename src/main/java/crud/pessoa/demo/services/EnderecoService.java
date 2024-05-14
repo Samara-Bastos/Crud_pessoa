@@ -2,11 +2,15 @@ package crud.pessoa.demo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException.NotFound;
 
-import crud.pessoa.demo.exceptions.FindEnderecoException;
-import crud.pessoa.demo.exceptions.FindPessoaException;
+import crud.pessoa.demo.dto.EnderecoAtualizaDTO;
+import crud.pessoa.demo.dto.EnderecoDTO;
+import crud.pessoa.demo.exceptions.NotFoundEnderecoException;
+import crud.pessoa.demo.exceptions.NotFoundPessoaException;
 import crud.pessoa.demo.models.Endereco;
 import crud.pessoa.demo.models.Pessoa;
+import crud.pessoa.demo.mapper.EnderecoMapper;
 import crud.pessoa.demo.repository.EnderecoRepository;
 import jakarta.transaction.Transactional;
 
@@ -26,13 +30,15 @@ public class EnderecoService {
     private PessoaService pessoaService;
 
     @Transactional
-    public Endereco create(Endereco endereco, String cpf){
+    public Endereco create(EnderecoDTO enderecoDTO, String cpf){
         logger.info("Inserção de um endereço");
+
+        Endereco endereco = EnderecoMapper.INSTANCE.dtoToEndereco(enderecoDTO);
 
         Optional<Pessoa> pessoa = pessoaService.findByPessoaCpf(cpf);
         
         if(pessoa.isEmpty()){
-            throw new FindPessoaException("Pessoa não encontrada");
+            throw new NotFoundPessoaException("Pessoa não encontrada");
             
         }
         
@@ -42,12 +48,13 @@ public class EnderecoService {
 
 
     @Transactional
-    public Endereco update(Endereco endereco, String cpf ) {
+    public Endereco update(EnderecoAtualizaDTO enderecoDTO, String cpf ) {
+        Endereco endereco = EnderecoMapper.INSTANCE.dtoAtualizaToEndereco(enderecoDTO);
 
         List<Endereco> enderecos = repository.findByEnderecoCpfPessoa(cpf);
         
         if(enderecos.size() == 0){
-            throw new FindEnderecoException("Endereço não encontrado");      
+            throw new NotFoundEnderecoException("Endereço não encontrado");      
         }
         
         Endereco enderecoNovo = enderecos.get(0);
@@ -69,7 +76,7 @@ public class EnderecoService {
         List<Endereco> enderecos = repository.findByEnderecoCpfPessoa(cpf);
 
         if (enderecos.size() == 0) {
-            throw new FindEnderecoException("Endereço não encontrado ");
+            throw new NotFoundEnderecoException("Endereço não encontrado ");
         }
 
         Endereco endereco = enderecos.get(0);
