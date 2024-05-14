@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -15,12 +16,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 
 import java.util.Optional;
+
+import crud.pessoa.demo.dto.EnderecoAtualizaDTO;
+import crud.pessoa.demo.dto.EnderecoDTO;
 import crud.pessoa.demo.dto.PessoaDTO;
 import crud.pessoa.demo.dto.PessoaListDTO;
 import crud.pessoa.demo.exceptions.FindEnderecoException;
@@ -36,6 +41,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import static org.mockito.ArgumentMatchers.any;
+
 
 @ExtendWith(MockitoExtension.class)
 public class EnderecoServiceTest {
@@ -49,19 +56,26 @@ public class EnderecoServiceTest {
     @InjectMocks
     private EnderecoService enderecoService;
 
+    private EnderecoDTO enderecoDTO;
 
-    protected Pessoa pessoa;
+    private EnderecoAtualizaDTO enderecoAtualizaDTO;
+    
+    private Pessoa pessoa;
 
-    protected Endereco endereco;
+    private Endereco endereco;
 
-    protected List<Endereco> enderecos = new ArrayList<>();
+    private List<Endereco> enderecos = new ArrayList<>();
 
     @BeforeEach
     void setup(){
 
         pessoa = new Pessoa("Aurora", LocalDate.of(2004,05,14), "37491502814");
 
-        endereco = new Endereco("Rua das dores", 10, "Bairro Jardins", "Cidade São Paulo", "Estado São Paulo", "36011233",pessoa, false);
+        endereco = new Endereco("Rua das dores", 10, "Bairro Jardins", "Cidade São Paulo", "Estado São Paulo", "36011233",pessoa, true);
+
+        enderecoDTO = mock(EnderecoDTO.class);
+
+        enderecoAtualizaDTO = mock(EnderecoAtualizaDTO.class);
 
     }
 
@@ -71,9 +85,9 @@ public class EnderecoServiceTest {
     void create() {
 
         when(pessoaService.findByPessoaCpf(anyString())).thenReturn(Optional.of(pessoa));
-        when(enderecoRepository.save(endereco)).thenReturn(endereco);
+        when(enderecoRepository.save(ArgumentMatchers.any(Endereco.class))).thenReturn(endereco);
 
-        Endereco enderecoCriado = enderecoService.create(endereco, pessoa.getCpf());
+        Endereco enderecoCriado = enderecoService.create(enderecoDTO, pessoa.getCpf());
 
         assertNotNull(enderecoCriado.getCpf_pessoa());
         assertEquals("Rua das dores", enderecoCriado.getRua());
@@ -86,7 +100,7 @@ public class EnderecoServiceTest {
 
         when(pessoaService.findByPessoaCpf(anyString())).thenReturn(Optional.empty());
 
-        assertThrows(FindPessoaException.class, () -> enderecoService.create(endereco, pessoa.getCpf()));
+        assertThrows(FindPessoaException.class, () -> enderecoService.create(enderecoDTO, pessoa.getCpf()));
     }
 
     
@@ -94,16 +108,15 @@ public class EnderecoServiceTest {
     @DisplayName("Deve permitir a atualização dos dados do endereço")
     void update() {
         enderecos.add(endereco);
-        
+
         when(enderecoRepository.findByEnderecoCpfPessoa(anyString())).thenReturn(enderecos);
-        when(enderecoRepository.save(endereco)).thenReturn(endereco);
+        when(enderecoRepository.save(ArgumentMatchers.any(Endereco.class))).thenReturn(endereco);
+        when(enderecoAtualizaDTO.rua()).thenReturn("Rua Teste");
 
-        Endereco enderecoNovo = new Endereco("Praça São Sebastião", 15, "Centro", "Cidade de São Paulo", "Estado de São Paulo", "01002000", pessoa, true);
-
-        Endereco enderecoAtualizado = enderecoService.update(enderecoNovo, pessoa.getCpf());
+        Endereco enderecoAtualizado = enderecoService.update(enderecoAtualizaDTO, pessoa.getCpf());
 
         assertNotNull(enderecoAtualizado);
-        assertEquals("Praça São Sebastião", enderecoAtualizado.getRua());
+        assertEquals("Rua Teste", enderecoAtualizado.getRua());
     }
 
     @Test
@@ -116,8 +129,7 @@ public class EnderecoServiceTest {
             List<Endereco> enderecos = enderecoRepository.findByEnderecoCpfPessoa(pessoa.getCpf());
 
             if (!enderecos.isEmpty()) {
-                Endereco enderecoAtualizado = enderecos.get(0);
-                enderecoService.update(enderecoAtualizado,pessoa.getCpf());
+                enderecoService.update(enderecoAtualizaDTO,pessoa.getCpf());
             } else {
                 throw new FindEnderecoException("Endereço não encontrado");
             }
