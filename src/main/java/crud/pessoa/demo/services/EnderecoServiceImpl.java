@@ -11,8 +11,6 @@ import crud.pessoa.demo.models.Pessoa;
 import crud.pessoa.demo.mapper.EnderecoMapper;
 import crud.pessoa.demo.repository.EnderecoRepository;
 import jakarta.transaction.Transactional;
-
-import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
