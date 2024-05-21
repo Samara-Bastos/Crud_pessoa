@@ -1,9 +1,6 @@
 package crud.pessoa.demo.dto;
 
 import org.hibernate.validator.constraints.br.CPF;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
