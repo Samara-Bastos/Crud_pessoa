@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import crud.pessoa.demo.dto.PessoaDTO;
 import crud.pessoa.demo.models.Pessoa;
-import crud.pessoa.demo.services.PessoaService;
+import crud.pessoa.demo.services.PessoaServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class PessoaController {
 
     @Autowired
-    private PessoaService pessoaService;
+    private PessoaServiceImpl pessoaService;
 
 
     @PostMapping 

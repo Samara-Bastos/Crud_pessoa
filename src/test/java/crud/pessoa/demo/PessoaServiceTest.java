@@ -25,7 +25,7 @@ import java.util.Optional;
 import crud.pessoa.demo.dto.PessoaDTO;
 import crud.pessoa.demo.models.Pessoa;
 import crud.pessoa.demo.repository.PessoaRepository;
-import crud.pessoa.demo.services.PessoaService;
+import crud.pessoa.demo.services.PessoaServiceImpl;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class PessoaServiceTest {
     private PessoaRepository pessoaRepository;
 
     @InjectMocks
-    private PessoaService pessoaService;
+    private PessoaServiceImpl pessoaService;
 
     private Pessoa pessoa;
 

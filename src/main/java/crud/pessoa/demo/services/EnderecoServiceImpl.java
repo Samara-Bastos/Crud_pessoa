@@ -17,15 +17,15 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
-public class EnderecoService {
+public class EnderecoServiceImpl {
 
-    private Logger logger = Logger.getLogger(EnderecoService.class.getName());
+    private Logger logger = Logger.getLogger(EnderecoServiceImpl.class.getName());
 
     @Autowired
     private EnderecoRepository repository;
  
     @Autowired
-    private PessoaService pessoaService;
+    private PessoaServiceImpl pessoaService;
 
     @Transactional
     public Endereco create(EnderecoDTO enderecoDTO, String cpf){

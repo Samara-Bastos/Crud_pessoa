@@ -18,9 +18,9 @@ import crud.pessoa.demo.repository.PessoaRepository;
 import jakarta.transaction.Transactional;
 
 @Service
-public class PessoaService {
+public class PessoaServiceImpl {
 
-    private Logger logger = Logger.getLogger(PessoaService.class.getName());
+    private Logger logger = Logger.getLogger(PessoaServiceImpl.class.getName());
 
     @Autowired
     private PessoaRepository repository;

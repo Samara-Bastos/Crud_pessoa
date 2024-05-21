@@ -35,8 +35,8 @@ import crud.pessoa.demo.models.Endereco;
 import crud.pessoa.demo.models.Pessoa;
 import crud.pessoa.demo.repository.EnderecoRepository;
 import crud.pessoa.demo.repository.PessoaRepository;
-import crud.pessoa.demo.services.EnderecoService;
-import crud.pessoa.demo.services.PessoaService;
+import crud.pessoa.demo.services.EnderecoServiceImpl;
+import crud.pessoa.demo.services.PessoaServiceImpl;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -52,10 +52,10 @@ public class EnderecoServiceTest {
     private EnderecoRepository enderecoRepository;
 
     @Mock
-    private PessoaService pessoaService;
+    private PessoaServiceImpl pessoaService;
 
     @InjectMocks
-    private EnderecoService enderecoService;
+    private EnderecoServiceImpl enderecoService;
 
     private EnderecoDTO enderecoDTO;
 

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import crud.pessoa.demo.dto.EnderecoAtualizaDTO;
 import crud.pessoa.demo.dto.EnderecoDTO;
 import crud.pessoa.demo.models.Endereco;
-import crud.pessoa.demo.services.EnderecoService;
+import crud.pessoa.demo.services.EnderecoServiceImpl;
 import jakarta.validation.Valid;
 
 
@@ -23,7 +23,7 @@ import jakarta.validation.Valid;
 public class EnderecoController {
     
     @Autowired
-    private EnderecoService enderecoService;
+    private EnderecoServiceImpl enderecoService;
 
 
     @PostMapping 
