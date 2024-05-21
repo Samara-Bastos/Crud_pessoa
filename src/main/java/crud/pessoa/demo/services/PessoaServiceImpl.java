@@ -61,14 +61,14 @@ public class PessoaServiceImpl implements PessoaService {
     public Pessoa update(String cpf, PessoaDTO pessoaDTO){
         logger.info("Atualização de uma pessoa");
 
-        Pessoa pessoa = PessoaMapper.INSTANCE.dtoToPessoa(pessoaDTO);
-
         Optional<Pessoa> pessoaReturn = findByPessoaCpf(cpf);
         
         if(pessoaReturn.isEmpty()){
             throw new NotFoundPessoaException("Pessoa não encontrada");
             
         }
+
+        Pessoa pessoa = PessoaMapper.INSTANCE.dtoToPessoa(pessoaDTO);
 
         Pessoa pessoaNova = pessoaReturn.get();
 
