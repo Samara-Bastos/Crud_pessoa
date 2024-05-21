@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
-public class EnderecoServiceImpl {
+public class EnderecoServiceImpl implements EnderecoService {
 
     private Logger logger = Logger.getLogger(EnderecoServiceImpl.class.getName());
 
@@ -27,6 +27,8 @@ public class EnderecoServiceImpl {
     @Autowired
     private PessoaServiceImpl pessoaService;
 
+
+    @Override
     @Transactional
     public Endereco create(EnderecoDTO enderecoDTO, String cpf){
         logger.info("Inserção de um endereço");
@@ -45,6 +47,7 @@ public class EnderecoServiceImpl {
     }
 
 
+    @Override
     @Transactional
     public Endereco update(EnderecoAtualizaDTO enderecoDTO, String cpf ) {
         Endereco endereco = EnderecoMapper.INSTANCE.dtoAtualizaToEndereco(enderecoDTO);
@@ -69,6 +72,7 @@ public class EnderecoServiceImpl {
     } 
 
     
+    @Override
     @Transactional
     public void delete(String cpf) {
         List<Endereco> enderecos = repository.findByEnderecoCpfPessoa(cpf);

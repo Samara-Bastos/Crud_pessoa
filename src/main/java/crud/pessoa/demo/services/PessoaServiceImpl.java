@@ -18,13 +18,15 @@ import crud.pessoa.demo.repository.PessoaRepository;
 import jakarta.transaction.Transactional;
 
 @Service
-public class PessoaServiceImpl {
+public class PessoaServiceImpl implements PessoaService {
 
     private Logger logger = Logger.getLogger(PessoaServiceImpl.class.getName());
 
     @Autowired
     private PessoaRepository repository;
  
+
+    @Override
     @Transactional 
     public Pessoa create(PessoaDTO pessoaDTO){
         logger.info("Inserção de uma pessoa");
@@ -41,17 +43,8 @@ public class PessoaServiceImpl {
         return repository.save(pessoa);
     }
 
-    public void calculaIdade(Pessoa pessoa){     
-        Period periodo = Period.between(pessoa.getNascimento(), pessoa.getAnoAtual());
-        pessoa.setIdade(periodo.getYears());
-    }
 
-  
-    public Optional<Pessoa> findByPessoaCpf(String cpf){
-        return repository.findByCpf(cpf);
-    }
-
-
+    @Override
     public Page<Object> findAll(Pageable paginacao) {
         logger.info("Pessoas cadastradas");
 		return repository.findAll(paginacao).map(pessoa -> {
@@ -62,12 +55,8 @@ public class PessoaServiceImpl {
         });
 	}
 
-    public Pessoa findById(Long id) {
-		logger.info("Pessoa");
-        return repository.findById(id).orElseThrow(() -> new NotFoundPessoaException("Pessoa não encontrada")); 
-	}
 
-    
+    @Override
     @Transactional
     public Pessoa update(String cpf, PessoaDTO pessoaDTO){
         logger.info("Atualização de uma pessoa");
@@ -91,6 +80,7 @@ public class PessoaServiceImpl {
     }
 
 
+    @Override
     @Transactional
     public void delete(String cpf) {
         logger.info("Exclusão de uma pessoa");
@@ -104,4 +94,21 @@ public class PessoaServiceImpl {
         Pessoa pessoaParaExcluir = pessoaReturn.get();
         repository.delete(pessoaParaExcluir);
     }
+
+    public void calculaIdade(Pessoa pessoa){     
+        Period periodo = Period.between(pessoa.getNascimento(), pessoa.getAnoAtual());
+        pessoa.setIdade(periodo.getYears());
+    }
+
+  
+    public Optional<Pessoa> findByPessoaCpf(String cpf){
+        return repository.findByCpf(cpf);
+    }
+    
+
+    public Pessoa findById(Long id) {
+		logger.info("Pessoa");
+        return repository.findById(id).orElseThrow(() -> new NotFoundPessoaException("Pessoa não encontrada")); 
+	}
+
 }
