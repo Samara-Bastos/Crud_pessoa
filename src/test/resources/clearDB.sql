@@ -1,0 +1,3 @@
+DELETE FROM Pessoa WHERE EXISTS (SELECT 1 FROM Pessoa);
+-- DELETE FROM tb_teacher WHERE EXISTS (SELECT 1 FROM tb_teacher);
+-- DELETE FROM tb_student WHERE EXISTS (SELECT 1 FROM tb_student);

@@ -37,4 +37,4 @@ out/
 .vscode/
 src/test/java/crud/pessoa/demo/DemoApplicationTests.java
 src/main/java/crud/pessoa/demo/exceptions/CreatePessoaException.java
-src/test/java/crud/pessoa/demo/PessoaCreateTest.java
+src/test/java/crud/pessoa/demo/PessoaCreateTest.java 
