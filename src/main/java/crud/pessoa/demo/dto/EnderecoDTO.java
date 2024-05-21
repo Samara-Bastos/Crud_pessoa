@@ -9,8 +9,8 @@ public record EnderecoDTO(
     @NotBlank(message = "A rua não pode estar vazia")
     String rua,
 
-    @NotNull
-    Integer numero, 
+    @NotBlank(message = "O número não pode estar vazia")
+    String numero, 
 
     @NotBlank(message = "O bairro não pode estar vazio")
     String bairro, 

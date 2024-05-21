@@ -49,39 +49,39 @@ public class EnderecoServiceImpl implements EnderecoService {
 
     @Override
     @Transactional
-    public Endereco update(EnderecoAtualizaDTO enderecoDTO, String cpf ) {
-        Endereco endereco = EnderecoMapper.INSTANCE.dtoAtualizaToEndereco(enderecoDTO);
-
-        List<Endereco> enderecos = repository.findByEnderecoCpfPessoa(cpf);
+    public Endereco update(EnderecoAtualizaDTO enderecoDTO, String cpf, String numero, String cep ) {
         
-        if(enderecos.size() == 0){
+        Endereco enderecoBuscado =  repository.findByEndereco(cpf, numero, cep);
+        
+        if(enderecoBuscado == null){
             throw new NotFoundEnderecoException("Endereço não encontrado");      
         }
+
+        Endereco enderecoNovo = EnderecoMapper.INSTANCE.dtoAtualizaToEndereco(enderecoDTO);
         
-        Endereco enderecoNovo = enderecos.get(0);
 
-        enderecoNovo.setRua(endereco.getRua());
-        enderecoNovo.setNumero(endereco.getNumero());
-        enderecoNovo.setBairro(endereco.getBairro());
-        enderecoNovo.setCidade(endereco.getCidade());
-        enderecoNovo.setEstado(endereco.getEstado());
-        enderecoNovo.setCep(endereco.getCep());
-        enderecoNovo.setPrincipal(endereco.isPrincipal());
+        enderecoBuscado.setRua(enderecoNovo.getRua());
+        enderecoBuscado.setNumero(enderecoNovo.getNumero());
+        enderecoBuscado.setBairro(enderecoNovo.getBairro());
+        enderecoBuscado.setCidade(enderecoNovo.getCidade());
+        enderecoBuscado.setEstado(enderecoNovo.getEstado());
+        enderecoBuscado.setCep(enderecoNovo.getCep());
+        enderecoBuscado.setPrincipal(enderecoNovo.isPrincipal());
 
-        return repository.save(enderecoNovo);
+        return repository.save(enderecoBuscado);
     } 
 
     
     @Override
     @Transactional
-    public void delete(String cpf) {
-        List<Endereco> enderecos = repository.findByEnderecoCpfPessoa(cpf);
+    public void delete(String cpf, String numero, String cep) {
 
-        if (enderecos.size() == 0) {
+        Endereco endereco =  repository.findByEndereco(cpf, numero, cep);
+
+        if (endereco == null) {
             throw new NotFoundEnderecoException("Endereço não encontrado ");
         }
 
-        Endereco endereco = enderecos.get(0);
         repository.delete(endereco);
     }
 }

@@ -8,8 +8,8 @@ public interface EnderecoService {
 
     public Endereco create(EnderecoDTO enderecoDTO, String cpf);
 
-    public Endereco update(EnderecoAtualizaDTO enderecoDTO, String cpf );
+    public Endereco update(EnderecoAtualizaDTO enderecoDTO, String cpf, String numero, String cep);
     
-    public void delete(String cpf);
+    public void delete(String cpf, String numero, String cep);
     
 }

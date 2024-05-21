@@ -26,7 +26,7 @@ public class Endereco {
 	private String rua;
 
 	@Column(nullable = false, length = 5)
-	private int numero;
+	private String numero;
 	
 	@Column(nullable = false, length = 30)
 	private String bairro;
@@ -54,7 +54,7 @@ public class Endereco {
 	
 	public Endereco(){}
 
-	public Endereco(String rua, int numero, String bairro, String cidade, String estado, String cep, Pessoa cpf_pessoa,
+	public Endereco(String rua, String numero, String bairro, String cidade, String estado, String cep, Pessoa cpf_pessoa,
 			boolean principal) {
 		this.rua = rua;
 		this.numero = numero;
@@ -78,11 +78,11 @@ public class Endereco {
 		this.rua = rua;
 	}
 
-	public int getNumero(){
+	public String getNumero(){
 		return this.numero;
 	}
 
-	public void setNumero(int numero){
+	public void setNumero(String numero){
 		this.numero = numero;
 	}
 

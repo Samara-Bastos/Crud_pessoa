@@ -35,18 +35,18 @@ public class EnderecoController {
         
     }
 
-    @PutMapping("/{cpf}")
-    public ResponseEntity<Endereco> atualizar(@PathVariable String cpf, @RequestBody EnderecoAtualizaDTO enderecoDTO) {
+    @PutMapping("/{cpf}/{numero}/{cep}")
+    public ResponseEntity<Endereco> atualizar(@PathVariable String cpf, @PathVariable String numero, @PathVariable String cep,  @RequestBody EnderecoAtualizaDTO enderecoDTO) {
     
-        var result = enderecoService.update(enderecoDTO, cpf); 
+        var result = enderecoService.update(enderecoDTO, cpf, numero, cep); 
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @DeleteMapping("/{cpf}")
-	public ResponseEntity<Void> deletar(@PathVariable String cpf) {
+    @DeleteMapping("/{cpf}/{numero}/{cep}")
+	public ResponseEntity<Void> deletar(@PathVariable String cpf, @PathVariable String numero, @PathVariable String cep) {
 
-		enderecoService.delete(cpf);
+		enderecoService.delete(cpf, numero, cep);
         
 		return ResponseEntity.noContent().build();
 	}
