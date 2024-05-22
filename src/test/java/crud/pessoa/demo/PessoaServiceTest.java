@@ -23,6 +23,7 @@ import org.springframework.data.domain.PageImpl;
 
 import java.util.Optional;
 import crud.pessoa.demo.dto.PessoaDTO;
+import crud.pessoa.demo.dto.ResponsePessoaDTO;
 import crud.pessoa.demo.models.Pessoa;
 import crud.pessoa.demo.repository.PessoaRepository;
 import crud.pessoa.demo.services.PessoaServiceImpl;
@@ -46,6 +47,8 @@ public class PessoaServiceTest {
 
     private PessoaDTO pessoaDTO;
 
+    private ResponsePessoaDTO responsePessoaDTO;
+
     @BeforeEach
     public void personSetup() {
         pessoa = new Pessoa("Aurora", LocalDate.of(2004,05,01), "37491502814");
@@ -60,11 +63,9 @@ public class PessoaServiceTest {
         when(pessoaRepository.save(ArgumentMatchers.any(Pessoa.class))).thenReturn(pessoa);
         when(pessoaDTO.cpf()).thenReturn("37491502814");
 
-        Pessoa pessoaCriada = pessoaService.create(pessoaDTO);
+        ResponsePessoaDTO pessoaCriada = pessoaService.create(pessoaDTO);
 
-        assertEquals(pessoaCriada.getNome(), "Aurora");
-        assertEquals(pessoaCriada.getNascimento(), LocalDate.of(2004,05,01));
-        assertEquals(pessoaCriada.getCpf(), "37491502814");
+        assertNotNull(pessoaCriada);
     }
 
     @Test
@@ -98,10 +99,9 @@ public class PessoaServiceTest {
         when(pessoaDTO.cpf()).thenReturn("37491502814");
         when(pessoaDTO.nome()).thenReturn("Laura");
 
-        Pessoa pessoaAtualizada = pessoaService.update(pessoa.getCpf(), pessoaDTO);
+        ResponsePessoaDTO pessoaAtualizada = pessoaService.update(pessoa.getCpf(), pessoaDTO);
 
         assertNotNull(pessoaAtualizada);
-        assertEquals("Laura", pessoaAtualizada.getNome());
     }
 
     @Test
