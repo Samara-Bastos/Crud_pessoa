@@ -6,6 +6,7 @@ import org.mapstruct.factory.Mappers;
 
 import crud.pessoa.demo.dto.EnderecoAtualizaDTO;
 import crud.pessoa.demo.dto.EnderecoDTO;
+import crud.pessoa.demo.dto.ResponseEnderecoDTO;
 import crud.pessoa.demo.models.Endereco;
 
 @Mapper(componentModel = "spring")
@@ -13,8 +14,7 @@ public interface EnderecoMapper {
     
     EnderecoMapper INSTANCE = Mappers.getMapper(EnderecoMapper.class);
 
-    @Mapping(target = "cpf_pessoa", ignore = true) 
-    EnderecoDTO enderecoToDTO(Endereco endereco);
+    ResponseEnderecoDTO enderecoToDTO(Endereco endereco);
 
     @Mapping(target = "cpf_pessoa", ignore = true) 
     Endereco dtoToEndereco(EnderecoDTO dto);

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import crud.pessoa.demo.dto.EnderecoAtualizaDTO;
 import crud.pessoa.demo.dto.EnderecoDTO;
+import crud.pessoa.demo.dto.ResponseEnderecoDTO;
 import crud.pessoa.demo.models.Endereco;
 import crud.pessoa.demo.services.EnderecoServiceImpl;
 import jakarta.validation.Valid;
@@ -27,18 +28,18 @@ public class EnderecoController {
 
 
     @PostMapping 
-    public ResponseEntity<Endereco> cadatrar(@RequestBody @Valid EnderecoDTO enderecoDTO){ 
+    public ResponseEntity<ResponseEnderecoDTO> cadatrar(@RequestBody @Valid EnderecoDTO enderecoDTO){ 
 
-        var result = enderecoService.create(enderecoDTO, enderecoDTO.cpf_pessoa()); 
+        ResponseEnderecoDTO result = enderecoService.create(enderecoDTO, enderecoDTO.cpf_pessoa()); 
 
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
         
     }
 
     @PutMapping("/{cpf}/{numero}/{cep}")
-    public ResponseEntity<Endereco> atualizar(@PathVariable String cpf, @PathVariable String numero, @PathVariable String cep,  @RequestBody EnderecoAtualizaDTO enderecoDTO) {
+    public ResponseEntity<ResponseEnderecoDTO> atualizar(@PathVariable String cpf, @PathVariable String numero, @PathVariable String cep,  @RequestBody EnderecoAtualizaDTO enderecoDTO) {
     
-        var result = enderecoService.update(enderecoDTO, cpf, numero, cep); 
+        ResponseEnderecoDTO result = enderecoService.update(enderecoDTO, cpf, numero, cep); 
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }

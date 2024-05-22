@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import crud.pessoa.demo.dto.EnderecoAtualizaDTO;
 import crud.pessoa.demo.dto.EnderecoDTO;
+import crud.pessoa.demo.dto.ResponseEnderecoDTO;
 import crud.pessoa.demo.exceptions.NotFoundEnderecoException;
 import crud.pessoa.demo.exceptions.NotFoundPessoaException;
 import crud.pessoa.demo.models.Endereco;
@@ -28,7 +29,7 @@ public class EnderecoServiceImpl implements EnderecoService {
 
     @Override
     @Transactional
-    public Endereco create(EnderecoDTO enderecoDTO, String cpf){
+    public ResponseEnderecoDTO create(EnderecoDTO enderecoDTO, String cpf){
         logger.info("Inserção de um endereço");
 
         Endereco endereco = EnderecoMapper.INSTANCE.dtoToEndereco(enderecoDTO);
@@ -41,13 +42,18 @@ public class EnderecoServiceImpl implements EnderecoService {
         }
         
         endereco.setCpf_pessoa(pessoa.get());
-        return repository.save(endereco);
+
+        repository.save(endereco);
+
+        ResponseEnderecoDTO responseEnderecoDTO = EnderecoMapper.INSTANCE.enderecoToDTO(endereco);
+
+        return responseEnderecoDTO;
     }
 
 
     @Override
     @Transactional
-    public Endereco update(EnderecoAtualizaDTO enderecoDTO, String cpf, String numero, String cep ) {
+    public ResponseEnderecoDTO update(EnderecoAtualizaDTO enderecoDTO, String cpf, String numero, String cep ) {
         
         Endereco enderecoBuscado =  repository.findByEndereco(cpf, numero, cep);
         
@@ -66,7 +72,11 @@ public class EnderecoServiceImpl implements EnderecoService {
         enderecoBuscado.setCep(enderecoNovo.getCep());
         enderecoBuscado.setPrincipal(enderecoNovo.isPrincipal());
 
-        return repository.save(enderecoBuscado);
+        repository.save(enderecoBuscado);
+
+        ResponseEnderecoDTO responseEnderecoDTO = EnderecoMapper.INSTANCE.enderecoToDTO(enderecoBuscado);
+
+        return responseEnderecoDTO;
     } 
 
     
