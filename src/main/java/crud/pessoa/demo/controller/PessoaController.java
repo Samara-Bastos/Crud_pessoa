@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import crud.pessoa.demo.dto.PessoaDTO;
+import crud.pessoa.demo.dto.ResponsePessoaDTO;
 import crud.pessoa.demo.models.Pessoa;
 import crud.pessoa.demo.services.PessoaServiceImpl;
 import jakarta.validation.Valid;
@@ -30,9 +31,9 @@ public class PessoaController {
 
 
     @PostMapping 
-    public ResponseEntity<Pessoa> cadatrar(@RequestBody @Valid PessoaDTO pessoaDTO){ 
+    public ResponseEntity<ResponsePessoaDTO> cadatrar(@RequestBody @Valid PessoaDTO pessoaDTO){ 
 
-        var result = pessoaService.create(pessoaDTO); 
+        ResponsePessoaDTO result = pessoaService.create(pessoaDTO); 
 
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
         

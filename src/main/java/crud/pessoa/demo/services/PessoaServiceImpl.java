@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import crud.pessoa.demo.dto.PessoaDTO;
-import crud.pessoa.demo.dto.PessoaListDTO;
+import crud.pessoa.demo.dto.ResponsePessoaDTO;
 import crud.pessoa.demo.exceptions.FindPessoaException;
 import crud.pessoa.demo.exceptions.NotFoundPessoaException;
 import crud.pessoa.demo.mapper.PessoaMapper;
@@ -28,7 +28,7 @@ public class PessoaServiceImpl implements PessoaService {
 
     @Override
     @Transactional 
-    public Pessoa create(PessoaDTO pessoaDTO){
+    public ResponsePessoaDTO create(PessoaDTO pessoaDTO){
         logger.info("Inserção de uma pessoa");
 
         Pessoa pessoa = PessoaMapper.INSTANCE.dtoToPessoa(pessoaDTO);
@@ -40,7 +40,15 @@ public class PessoaServiceImpl implements PessoaService {
             
         }
 
-        return repository.save(pessoa);
+        if (pessoa.getNascimento() != null) {
+            calculaIdade(pessoa); // Calcular idade para cada pessoa
+        }
+
+        repository.save(pessoa);
+
+        ResponsePessoaDTO responsePessoaDTO = PessoaMapper.INSTANCE.pessoaToDTO(pessoa);
+
+        return responsePessoaDTO;
     }
 
 
@@ -51,7 +59,7 @@ public class PessoaServiceImpl implements PessoaService {
             if (pessoa.getNascimento() != null) {
                 calculaIdade(pessoa); // Calcular idade para cada pessoa
             }
-            return new PessoaListDTO(pessoa);
+            return new ResponsePessoaDTO(pessoa);
         });
 	}
 

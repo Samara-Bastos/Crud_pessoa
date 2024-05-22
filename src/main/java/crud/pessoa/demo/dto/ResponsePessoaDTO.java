@@ -6,9 +6,7 @@ import java.util.List;
 import crud.pessoa.demo.models.Endereco;
 import crud.pessoa.demo.models.Pessoa;
 
-public record PessoaListDTO(
-
-    Long id,
+public record ResponsePessoaDTO(
 
     String nome,
 
@@ -21,7 +19,9 @@ public record PessoaListDTO(
     List<Endereco> enderecos
 
 ) {
-    public PessoaListDTO(Pessoa pessoa){
-        this(pessoa.getId(), pessoa.getNome(),pessoa.getNascimento(), pessoa.getCpf(), pessoa.getIdade(), pessoa.getEnderecos());
+    public ResponsePessoaDTO(Pessoa pessoa){
+        this(pessoa.getNome(),pessoa.getNascimento(), pessoa.getCpf(), pessoa.getIdade(), pessoa.getEnderecos());
     }
 }
+
+
