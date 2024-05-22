@@ -54,6 +54,8 @@ public class PessoaServiceTest {
         pessoa = new Pessoa("Aurora", LocalDate.of(2004,05,01), "37491502814");
 
         pessoaDTO = mock(PessoaDTO.class);
+
+        responsePessoaDTO = mock(ResponsePessoaDTO.class);
     }
 
     @Test
@@ -63,9 +65,9 @@ public class PessoaServiceTest {
         when(pessoaRepository.save(ArgumentMatchers.any(Pessoa.class))).thenReturn(pessoa);
         when(pessoaDTO.cpf()).thenReturn("37491502814");
 
-        ResponsePessoaDTO pessoaCriada = pessoaService.create(pessoaDTO);
+        responsePessoaDTO = pessoaService.create(pessoaDTO);
 
-        assertNotNull(pessoaCriada);
+        assertNotNull(responsePessoaDTO);
     }
 
     @Test
@@ -99,9 +101,9 @@ public class PessoaServiceTest {
         when(pessoaDTO.cpf()).thenReturn("37491502814");
         when(pessoaDTO.nome()).thenReturn("Laura");
 
-        ResponsePessoaDTO pessoaAtualizada = pessoaService.update(pessoa.getCpf(), pessoaDTO);
+        responsePessoaDTO = pessoaService.update(pessoa.getCpf(), pessoaDTO);
 
-        assertNotNull(pessoaAtualizada);
+        assertNotNull(responsePessoaDTO);
     }
 
     @Test
