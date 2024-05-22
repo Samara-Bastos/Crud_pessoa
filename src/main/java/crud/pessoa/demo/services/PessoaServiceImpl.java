@@ -66,7 +66,7 @@ public class PessoaServiceImpl implements PessoaService {
 
     @Override
     @Transactional
-    public Pessoa update(String cpf, PessoaDTO pessoaDTO){
+    public ResponsePessoaDTO update(String cpf, PessoaDTO pessoaDTO){
         logger.info("Atualização de uma pessoa");
 
         Optional<Pessoa> pessoaReturn = findByPessoaCpf(cpf);
@@ -78,13 +78,21 @@ public class PessoaServiceImpl implements PessoaService {
 
         Pessoa pessoa = PessoaMapper.INSTANCE.dtoToPessoa(pessoaDTO);
 
-        Pessoa pessoaNova = pessoaReturn.get();
+        Pessoa pessoaAntiga = pessoaReturn.get();
 
-        pessoaNova.setNome(pessoa.getNome());
-        pessoaNova.setNascimento(pessoa.getNascimento());
-        pessoaNova.setCpf(pessoa.getCpf());
+        pessoaAntiga.setNome(pessoa.getNome());
+        pessoaAntiga.setNascimento(pessoa.getNascimento());
+        pessoaAntiga.setCpf(pessoa.getCpf());
         
-        return repository.save(pessoaNova);
+        repository.save(pessoaAntiga);
+
+        if (pessoaAntiga.getNascimento() != null) {
+            calculaIdade(pessoaAntiga); // Calcular idade para cada pessoa
+        }
+
+        ResponsePessoaDTO responsePessoaDTO = PessoaMapper.INSTANCE.pessoaToDTO(pessoaAntiga);
+
+        return responsePessoaDTO;
     }
 
 

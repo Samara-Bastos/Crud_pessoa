@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import crud.pessoa.demo.dto.PessoaDTO;
 import crud.pessoa.demo.dto.ResponsePessoaDTO;
-import crud.pessoa.demo.models.Pessoa;
 import crud.pessoa.demo.services.PessoaServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -47,9 +46,9 @@ public class PessoaController {
 
 
     @PutMapping("/{cpf}")
-    public ResponseEntity<Pessoa> atualizar(@PathVariable String cpf, @RequestBody PessoaDTO pessoaDTO) {
+    public ResponseEntity<ResponsePessoaDTO> atualizar(@PathVariable String cpf, @RequestBody PessoaDTO pessoaDTO) {
         
-        var result = pessoaService.update(cpf, pessoaDTO); 
+        ResponsePessoaDTO result = pessoaService.update(cpf, pessoaDTO); 
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }

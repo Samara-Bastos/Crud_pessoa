@@ -5,7 +5,6 @@ import org.springframework.data.domain.Pageable;
 
 import crud.pessoa.demo.dto.PessoaDTO;
 import crud.pessoa.demo.dto.ResponsePessoaDTO;
-import crud.pessoa.demo.models.Pessoa;
 
 public interface PessoaService {
 
@@ -13,7 +12,7 @@ public interface PessoaService {
 
     public Page<Object> findAll(Pageable paginacao);
     
-    public Pessoa update(String cpf, PessoaDTO pessoaDTO);
+    public ResponsePessoaDTO update(String cpf, PessoaDTO pessoaDTO);
 
     public void delete(String cpf); 
 }
