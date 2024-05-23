@@ -16,8 +16,13 @@ import org.springframework.http.MediaType;
 
 import crud.pessoa.demo.dto.EnderecoAtualizaDTO;
 import crud.pessoa.demo.dto.EnderecoDTO;
+import crud.pessoa.demo.exceptions.NotFoundPessoaException;
 import crud.pessoa.demo.fixture.*;
+import crud.pessoa.demo.models.Endereco;
+import crud.pessoa.demo.models.Pessoa;
 import crud.pessoa.demo.repository.EnderecoRepository;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
@@ -29,23 +34,22 @@ public class EnderecoControllerTest {
 
     private EnderecoDTO dto;
 
-    String json;
+    private EnderecoAtualizaDTO dtoUpdate;
 
-    private EnderecoAtualizaDTO enderecoAtualizaDTO;
-
-    @Autowired
-    private EnderecoRepository enderecoRepository;
+    private String json;
 
     @Autowired
     ObjectMapper mapper;
     
+    @Autowired
+    EnderecoRepository enderecoRepository;
 
     
     @Test
     @DisplayName("Deve ser possível criar um endereço")
     @SqlGroup({
         @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = SqlProvider.insertPessoa),
-        //@Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = SqlProvider.clearDB)
+        @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = SqlProvider.clearDB)
     })
     void cadatrarEnderecoTest() throws Exception{
         
@@ -60,6 +64,48 @@ public class EnderecoControllerTest {
                 .andExpect(jsonPath("$.rua").value(dto.rua()));
     
     }
+
+    @Test
+    @DisplayName("Deve ser possivel atualizar o endereço")
+    @SqlGroup({
+        @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = SqlProvider.insertPessoa),
+        @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = SqlProvider.insertEndereco),
+        @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = SqlProvider.clearDB)
+    })
+    void atualizarEnderecoTest() throws Exception{ 
+
+        dtoUpdate = EnderecoAtualizaDTOFixture.EnderecoAtualizaDTOValido();
+
+        json = mapper.writeValueAsString(dtoUpdate);
+
+        String cpf = "85626848053";
+        String numero = "789";
+        String cep = "34567890";
+
+        mockMvc
+            .perform(MockMvcRequestBuilders.put("/endereco/"+cpf+"/"+numero+"/"+cep)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(json))
+            .andExpect(status().isOk());
+
+    }
     
     
+    @Test
+    @DisplayName("Deve ser possivel deletar o endereço")
+    @SqlGroup({
+        @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = SqlProvider.insertPessoa),
+        @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = SqlProvider.insertEndereco),
+        @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = SqlProvider.clearDB)
+    })
+    void deletarEnderecoTest() throws Exception{
+
+        String cpf = "85626848053";
+        String numero = "789";
+        String cep = "34567890";
+
+        mockMvc
+            .perform(MockMvcRequestBuilders.delete("/endereco/"+cpf+"/"+numero+"/"+cep))
+            .andExpect(status().isNoContent());
+    }
 }

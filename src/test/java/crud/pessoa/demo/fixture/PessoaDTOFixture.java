@@ -7,11 +7,11 @@ import crud.pessoa.demo.dto.PessoaDTO;
 public class PessoaDTOFixture {
     
     public static PessoaDTO PessoaDTOValido() {
-        return new PessoaDTO("João", LocalDate.of(1990, 5, 20), "12345678901");
+        return new PessoaDTO("João", LocalDate.of(1990, 5, 20), "37491502814");
     }
 
     public static PessoaDTO PessoaDTOInvalido() {
-        return new PessoaDTO("", LocalDate.of(1990, 5, 20), "12345678901");
+        return new PessoaDTO("", LocalDate.of(1990, 5, 20), "37491502814");
     }
 
 }
