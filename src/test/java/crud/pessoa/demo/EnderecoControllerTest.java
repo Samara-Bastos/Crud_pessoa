@@ -9,20 +9,12 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.springframework.http.MediaType;
-
 import crud.pessoa.demo.dto.EnderecoAtualizaDTO;
 import crud.pessoa.demo.dto.EnderecoDTO;
-import crud.pessoa.demo.exceptions.NotFoundPessoaException;
 import crud.pessoa.demo.fixture.*;
-import crud.pessoa.demo.models.Endereco;
-import crud.pessoa.demo.models.Pessoa;
 import crud.pessoa.demo.repository.EnderecoRepository;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
