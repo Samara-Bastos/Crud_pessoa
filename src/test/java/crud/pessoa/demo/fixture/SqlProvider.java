@@ -1,4 +1,4 @@
-package crud.pessoa.demo.integracao.fixture;
+package crud.pessoa.demo.fixture;
 
 
 public class SqlProvider {
