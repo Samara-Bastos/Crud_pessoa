@@ -1,4 +1,4 @@
-package crud.pessoa.demo.fixture;
+package crud.pessoa.demo.integracao.fixture;
 
 import crud.pessoa.demo.dto.EnderecoDTO;
 

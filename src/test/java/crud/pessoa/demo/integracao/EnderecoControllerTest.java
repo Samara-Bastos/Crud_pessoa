@@ -1,4 +1,4 @@
-package crud.pessoa.demo;
+package crud.pessoa.demo.integracao;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 import crud.pessoa.demo.dto.EnderecoAtualizaDTO;
 import crud.pessoa.demo.dto.EnderecoDTO;
-import crud.pessoa.demo.fixture.*;
+import crud.pessoa.demo.integracao.fixture.*;
 import crud.pessoa.demo.repository.EnderecoRepository;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 

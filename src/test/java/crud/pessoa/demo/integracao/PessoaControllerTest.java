@@ -1,4 +1,4 @@
-package crud.pessoa.demo;
+package crud.pessoa.demo.integracao;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,8 +14,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import crud.pessoa.demo.dto.PessoaDTO;
 import crud.pessoa.demo.exceptions.NotFoundPessoaException;
-import crud.pessoa.demo.fixture.PessoaDTOFixture;
-import crud.pessoa.demo.fixture.SqlProvider;
+import crud.pessoa.demo.integracao.fixture.PessoaDTOFixture;
+import crud.pessoa.demo.integracao.fixture.SqlProvider;
 import crud.pessoa.demo.models.Pessoa;
 import crud.pessoa.demo.repository.PessoaRepository;
 
