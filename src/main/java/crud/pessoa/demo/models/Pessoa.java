@@ -1,7 +1,6 @@
 package crud.pessoa.demo.models;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,13 +40,12 @@ public class Pessoa {
     @JsonManagedReference
 	private List<Endereco> enderecos = new ArrayList<>();
 
-	@Transient //Anotação usada para garantir que esse atributo não seja salvo no banco
+	@Transient 
 	private LocalDate anoAtual = LocalDate.now();
 
 	@Transient
 	private int idade;
 
-	//Construtor vazio
 	public Pessoa(){}; 
 
 	public Pessoa(String nome, LocalDate nascimento, String cpf) {
