@@ -1,9 +1,9 @@
-~~ CRUD de Pessoa e Endereço
+# CRUD de Pessoa e Endereço
 
     Este projeto foi desenvolvido em Java utilizando o framework Spring Boot para criar um CRUD (Create, Read, Update, Delete) para as entidades Pessoa e Endereço. A relação entre essas entidades é de um-para-muitos, ou seja, uma pessoa pode ter vários endereços.
 
 
-~~ Funcionalidades
+ ## Funcionalidades
 
     O sistema oferece as seguintes funcionalidades:
 
@@ -26,7 +26,7 @@
     Calcula e exibe a idade da pessoa com base na sua data de nascimento.
 
 
-~~Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
     Java
     Spring Boot
@@ -42,7 +42,7 @@
     Testes Unitarios - Junit e Mockito
 
 
-~~Executando o Projeto
+## Executando o Projeto
 
     Clone este repositório para sua máquina local.
     Abra o projeto em sua IDE Java preferida.
@@ -51,7 +51,7 @@
     Acesse a documentação da API Swagger em http://localhost:8080/swagger-ui.html.
 
 
-~~Desenvolvedora Responsável 
+## Desenvolvedora Responsável 
 
     Samara Bastos
     linkedin : https://www.linkedin.com/in/samara-bastos-397375241/
